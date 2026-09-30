@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-import { cta, nav, site } from "@/content/site";
+import { accessibility, cta, headerLabels, nav, site } from "@/content/site";
 import { getWindowState } from "@/lib/window";
 
 import { CutLink } from "./cut-button";
@@ -18,7 +18,7 @@ export function SiteHeader() {
           <span className="u-mono text-muted">{site.organizer}</span>
         </Link>
 
-        <nav className="hidden items-center gap-6 md:flex" aria-label="Principal">
+        <nav className="hidden items-center gap-6 md:flex" aria-label={accessibility.primaryNavigation}>
           {nav.map((item) => (
             <Link
               key={item.href}
@@ -41,7 +41,7 @@ export function SiteHeader() {
 
           <details className="relative md:hidden">
             <summary className="cut-corner-sm cursor-pointer list-none bg-surface-kraft px-4 py-2 font-display text-sm font-extrabold uppercase tracking-wide">
-              Menu
+              {headerLabels.menu}
             </summary>
             <div className="absolute right-0 z-50 mt-2 flex w-52 flex-col gap-3 border border-ink/15 bg-surface-raised p-4 shadow-lg">
               {nav.map((item) => (

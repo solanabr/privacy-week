@@ -12,9 +12,11 @@ import { TodoBadge } from "@/components/todo-badge";
 import {
   calendar,
   challenge,
+  closing,
   cloakSection,
   devWithCloak,
   faq,
+  faqSection,
   finePrint,
   hero,
   howTo,
@@ -23,6 +25,7 @@ import {
   payout,
   requirements,
   resources,
+  resourcesSection,
   results,
   whyPrivacy,
 } from "@/content/home";
@@ -103,13 +106,13 @@ export default function HomePage() {
           <TicketCard
             rotate
             header={hero.ticket.header}
-            serial="Nº 0001"
+            serial={hero.ticket.serial}
             fields={[
-              { label: "Período", value: hero.ticket.period },
-              { label: "Prêmios", value: hero.ticket.prizes },
-              { label: "Distribuição", value: hero.ticket.prizesDetail },
+              { label: hero.ticket.labels.period, value: hero.ticket.period },
+              { label: hero.ticket.labels.prizes, value: hero.ticket.prizes },
+              { label: hero.ticket.labels.distribution, value: hero.ticket.prizesDetail },
               {
-                label: "Tempo restante",
+                label: hero.ticket.labels.countdown,
                 value: (
                   <Countdown
                     deadline={closeAt}
@@ -126,21 +129,22 @@ export default function HomePage() {
       {/* Why privacy */}
       <Section id={sectionIds.why} tone="deep">
         <Heading eyebrow={whyPrivacy.eyebrow} title={whyPrivacy.title} />
-        <div className="grid gap-10 lg:grid-cols-[1.1fr_1fr]">
-          <div className="flex flex-col gap-4 text-base text-ink/90">
+        <div className="grid min-w-0 gap-10 lg:grid-cols-[1.1fr_1fr]">
+          <div className="flex min-w-0 flex-col gap-4 text-base text-ink/90">
             <p>
-              Na Solana, qualquer pessoa com o seu endereço vê{" "}
-              <Redaction>o seu saldo</Redaction>, cada pagamento que entrou,{" "}
-              <Redaction>de quem veio</Redaction> e a que horas. Não é hack: é o
-              padrão da rede.
+              {whyPrivacy.opening.beforeBalance}{" "}
+              <Redaction>{whyPrivacy.opening.balance}</Redaction>
+              {whyPrivacy.opening.betweenPayments}{" "}
+              <Redaction>{whyPrivacy.opening.sender}</Redaction>{" "}
+              {whyPrivacy.opening.afterSender}
             </p>
+            <p>{whyPrivacy.paragraphs[0]}</p>
             <p>{whyPrivacy.paragraphs[1]}</p>
-            <p>{whyPrivacy.paragraphs[2]}</p>
-            <p>
-              <strong>{whyPrivacy.paragraphs[3]}</strong>
-            </p>
+            <p><strong>{whyPrivacy.paragraphs[2]}</strong></p>
           </div>
-          <ShieldedPoolDiagram />
+          <div className="min-w-0">
+            <ShieldedPoolDiagram />
+          </div>
         </div>
       </Section>
 
@@ -190,8 +194,8 @@ export default function HomePage() {
           {challenge.categories.map((category, index) => (
             <li key={category.name}>
               <TicketCard
-                header={`Categoria ${index + 1}`}
-                fields={[{ label: "Categoria", value: category.name }]}
+                header={`${challenge.categoryHeader} ${index + 1}`}
+                fields={[{ label: challenge.categoryLabel, value: category.name }]}
                 footer={
                   <div className="flex flex-col gap-2">
                     {category.note ? (
@@ -206,13 +210,13 @@ export default function HomePage() {
         </ol>
         <div className="mt-10 grid gap-6 lg:grid-cols-2">
           <div className="cut-corner bg-ink p-6 text-surface-raised">
-            <p className="u-mono text-surface-raised/70">O recado principal</p>
+            <p className="u-mono text-surface-raised/70">{challenge.coreMessageLabel}</p>
             <p className="mt-3 font-display text-xl font-extrabold leading-tight">
               {challenge.coreMessage}
             </p>
           </div>
           <div className="cut-corner border border-ink/20 bg-surface-raised p-6">
-            <p className="u-mono text-muted">Lembrete</p>
+            <p className="u-mono text-muted">{challenge.reminderLabel}</p>
             <p className="mt-3 text-sm text-ink/90">{challenge.reminder}</p>
           </div>
         </div>
@@ -347,7 +351,7 @@ export default function HomePage() {
 
       {/* Resources */}
       <Section id={sectionIds.resources}>
-        <Heading eyebrow="RECURSOS" title="Links úteis" />
+        <Heading eyebrow={resourcesSection.eyebrow} title={resourcesSection.title} />
         <div className="grid gap-8 md:grid-cols-3">
           {resources.map((group) => (
             <div key={group.title} className="flex flex-col gap-3">
@@ -389,7 +393,7 @@ export default function HomePage() {
 
       {/* FAQ */}
       <Section id={sectionIds.faq}>
-        <Heading eyebrow="DÚVIDAS" title="Perguntas frequentes" />
+        <Heading eyebrow={faqSection.eyebrow} title={faqSection.title} />
         <div className="flex max-w-3xl flex-col gap-3">
           {faq.map((item) => (
             <details
@@ -438,7 +442,7 @@ export default function HomePage() {
       <Section tone="kraft">
         <div className="flex flex-col items-start gap-5">
           <h2 className="max-w-2xl text-3xl uppercase">
-            {isOpen ? "Envie o seu projeto até sábado." : "Veja os projetos enviados."}
+            {isOpen ? closing.open : closing.closed}
           </h2>
           <div className="flex flex-wrap gap-3">
             <CutLink href={isOpen ? "/enviar" : "/projetos"} variant="primary">

@@ -28,6 +28,15 @@ export const nav = [
   { href: "/#duvidas", label: "Dúvidas" },
 ] as const;
 
+export const accessibility = {
+  skipToContent: "Pular para o conteúdo",
+  primaryNavigation: "Principal",
+} as const;
+
+export const headerLabels = {
+  menu: "Menu",
+} as const;
+
 export const sectionIds = {
   why: "por-que",
   cloak: "cloak",

@@ -7,6 +7,13 @@ export const hero = {
   sub: "Um desafio de quarta a sábado para quem está construindo no Hackathon da Colosseum. 1000 USDC em 10 prêmios para projetos com Cloak e Zcash.",
   ticket: {
     header: "PRIVACY SPRINT",
+    serial: "Nº 0001",
+    labels: {
+      period: "Período",
+      prizes: "Prêmios",
+      distribution: "Distribuição",
+      countdown: "Tempo restante",
+    },
     period: "PERÍODO: 30 SET → 03 OUT, 23:59 (BRT)",
     prizes: "PRÊMIOS: 1000 USDC",
     prizesDetail: "10 × 100 USDC · 500 Cloak · 500 Zcash",
@@ -18,8 +25,15 @@ export const hero = {
 export const whyPrivacy = {
   eyebrow: "POR QUE PRIVACIDADE",
   title: "Sua carteira é um diário público",
+  opening: {
+    beforeBalance: "Na Solana, qualquer pessoa com o seu endereço vê",
+    balance: "o seu saldo",
+    betweenPayments: ", cada pagamento que entrou,",
+    sender: "de quem veio",
+    afterSender:
+      "e a que horas. Dá para ver com quem você negocia e quanto recebe por mês. Não é hack: é o padrão da rede.",
+  },
   paragraphs: [
-    "Na Solana, qualquer pessoa com o seu endereço vê o seu saldo, cada pagamento que entrou, de quem veio e a que horas. Dá para ver com quem você negocia e quanto recebe por mês. Não é hack: é o padrão da rede.",
     "No Brasil, o seu extrato é protegido por lei, o sigilo bancário. O Pix que você manda não aparece para o seu vizinho. Na Solana, a sua carteira é um diário público, e a maioria de nós escreve nele todo dia.",
     "O trilema clássico da blockchain (descentralização, segurança, escalabilidade) nem inclui privacidade. A rede compra confiança com transparência: todo mundo confere porque todo mundo vê. A pergunta de hoje é: dá para conferir sem ver?",
     "Zero knowledge, numa frase: provar que uma coisa é verdade sem revelar por que ela é verdade. Como um RG que responde só “sim, é maior de 18” em vez de mostrar a sua data de nascimento.",
@@ -28,7 +42,10 @@ export const whyPrivacy = {
     title: "Um shielded pool, em uma imagem",
     caption:
       "A carteira A deposita (público), a nota fica secreta com você, só o commitment vai para a chain. Uma prova ZK libera o saque para a carteira B (público). A chain vê A entrar e B sair, mas não a linha entre os dois.",
+    treeNote: "Merkle tree de commitments + conjunto de nullifiers",
     labels: {
+      walletA: "A",
+      walletB: "B",
       deposit: "A deposita",
       pool: "Shielded pool",
       withdraw: "B saca",
@@ -107,6 +124,10 @@ export const challenge = {
   ],
   coreMessage:
     "Não comecem um projeto novo. Coloquem privacidade no projeto que vocês já estão construindo. Os 100 USDC são o bônus; o prêmio de verdade é uma submissão mais forte no Hackathon.",
+  coreMessageLabel: "O recado principal",
+  categoryLabel: "Categoria",
+  categoryHeader: "Categoria",
+  reminderLabel: "Lembrete",
   reminder:
     "O Hackathon tem uma trilha Zcash de US$ 100 mil (10 × US$ 10 mil) e uma trilha Solana de US$ 100 mil. Na inscrição do Colosseum dá para marcar até 3 redes: um projeto em Solana que integra Zcash concorre nas duas.",
 } as const;
@@ -313,6 +334,11 @@ export const resources: ResourceGroup[] = [
   },
 ];
 
+export const resourcesSection = {
+  eyebrow: "RECURSOS",
+  title: "Links úteis",
+} as const;
+
 export const ideas = {
   eyebrow: "IDEIAS PARA COMEÇAR",
   title: "Por onde começar",
@@ -400,6 +426,16 @@ export const faq: FaqItem[] = [
     todo: true,
   },
 ];
+
+export const faqSection = {
+  eyebrow: "DÚVIDAS",
+  title: "Perguntas frequentes",
+} as const;
+
+export const closing = {
+  open: "Envie o seu projeto até sábado.",
+  closed: "Veja os projetos enviados.",
+} as const;
 
 export const finePrint = {
   eyebrow: "LETRAS MIÚDAS",

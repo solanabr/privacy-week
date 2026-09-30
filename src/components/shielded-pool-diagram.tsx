@@ -21,13 +21,13 @@ function Chip({ children }: { children: React.ReactNode }) {
 
 export function ShieldedPoolDiagram() {
   return (
-    <figure className="flex flex-col gap-3">
+    <figure className="flex min-w-0 flex-col gap-3">
       <div
         role="img"
         aria-label={whyPrivacy.diagram.caption}
-        className="flex items-stretch gap-3 overflow-x-auto pb-2 sm:gap-5"
+        className="flex w-full min-w-0 items-stretch gap-3 overflow-x-auto pb-2 sm:gap-5"
       >
-        <Wallet label="A" detail={L.deposit} />
+        <Wallet label={L.walletA} detail={L.deposit} />
 
         <div className="flex items-center text-2xl text-muted" aria-hidden>
           →
@@ -42,14 +42,14 @@ export function ShieldedPoolDiagram() {
             <Chip>{L.proof}</Chip>
             <Chip>{L.viewingKey}</Chip>
           </div>
-          <p className="text-xs text-muted">Merkle tree de commitments + conjunto de nullifiers</p>
+          <p className="text-xs text-muted">{whyPrivacy.diagram.treeNote}</p>
         </div>
 
         <div className="flex items-center text-2xl text-muted" aria-hidden>
           →
         </div>
 
-        <Wallet label="B" detail={L.withdraw} />
+        <Wallet label={L.walletB} detail={L.withdraw} />
       </div>
 
       <div className="flex items-center gap-3">
