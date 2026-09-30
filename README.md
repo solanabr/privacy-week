@@ -1,34 +1,77 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Privacy Week
 
-## Getting Started
+Privacy Week is the Superteam Brasil site for Privacy Sprint, a short privacy challenge for teams building in the Colosseum hackathon. The site explains the challenge, accepts and edits submissions, publishes a project gallery, and gives organizers an authenticated area for review, judging, winner selection, and payout tracking.
 
-First, run the development server:
+The application uses Next.js App Router, TypeScript, Tailwind CSS v4, and a local Supabase Postgres database. Database access stays on the server through one service-role client. Public queries select an explicit list of fields; contact data and moderation data stay in the admin area.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+## Prerequisites
+
+- Node.js 20 or later
+- pnpm 11
+- Docker Desktop or Docker Engine running
+- Supabase CLI
+- A Playwright Chromium installation for end-to-end tests (`pnpm exec playwright install chromium`)
+
+## Local setup
+
+1. Install dependencies:
+
+   ```sh
+   pnpm install
+   ```
+
+2. Start the local Supabase stack:
+
+   ```sh
+   pnpm db:start
+   supabase status
+   ```
+
+   Copy the local API URL and service-role key from `supabase status` into `.env.local`. The service-role key is server-only and must not be committed or prefixed with `NEXT_PUBLIC_`.
+
+3. Copy `.env.example` to `.env.local` if you have not already, then set the values for the local database, a private `ADMIN_USERS` password, and a long random `IP_HASH_SALT`. Set `SITE_URL=http://localhost:3000` for normal development. `ADMIN_USERS` accepts comma-separated `name:password` pairs; the name is recorded as the judge on scores.
+
+4. Apply the migration and local example data when starting with a fresh local database:
+
+   ```sh
+   pnpm db:reset
+   ```
+
+   This resets the local database and inserts three clearly fake `Exemplo` submissions. The seed is configured for local `db reset`; the production checklist uses `supabase db push` and does not apply it.
+
+5. Run the site:
+
+   ```sh
+   pnpm dev
+   ```
+
+   Visit <http://localhost:3000>. Set `DEV_NOW` in `.env.local` to an ISO timestamp inside the submission window when testing the submission form. It only affects development mode.
+
+## Useful commands
+
+```sh
+pnpm lint
+pnpm typecheck
+pnpm test
+pnpm test:e2e
+pnpm build
+pnpm db:reset
+pnpm db:types
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+`pnpm test:e2e` expects the local Supabase stack and `.env.local` to be configured. It runs the open-window flow and a separate closed-window check. The open-window flow creates a fake submission and leaves it hidden in the local database after checking moderation and CSV export. Use `pnpm db:reset` when you want to clear local test data and restore the three examples.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Editing copy
 
-## Learn More
+All organizer-facing site copy lives in typed files under `src/content/`. Keep unresolved decisions visible as `TODO(Marcelo)` markers and do not replace them with guessed facts. Content is in Brazilian Portuguese; developer documentation, code, comments, and commit messages are in English.
 
-To learn more about Next.js, take a look at the following resources:
+## Security notes
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- Supabase reads and writes use `src/lib/db/server.ts` on the server only.
+- RLS is enabled on `submissions` and `judge_scores`, with no policies for `anon` or `authenticated`.
+- Public queries in `src/lib/db/submissions.ts` use an explicit field whitelist and return only rows with `status = 'submitted'`.
+- Edit links contain a random 32-byte token; only its SHA-256 hash is stored. The raw token travels through a short-lived HTTP-only cookie to the one-time success page.
+- The database never stores a Cloak payment link. Admins track only the payout status.
+- `/admin/**` uses HTTP Basic Auth from `ADMIN_USERS`; every admin Server Action checks the credentials again.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+See [DEPLOY.md](./DEPLOY.md) for the production checklist. No cloud project or deployment is configured by this repository.
