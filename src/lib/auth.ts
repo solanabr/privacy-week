@@ -5,6 +5,9 @@ export interface AdminUser {
   password: string;
 }
 
+/** Internal header populated only after the request passes through `proxy.ts`. */
+export const ADMIN_AUTH_HEADER = "x-privacy-week-admin-authorization";
+
 /** Parse `ADMIN_USERS` (`name:password,name2:password2`). */
 export function parseAdminUsers(raw: string | undefined): AdminUser[] {
   if (!raw) return [];

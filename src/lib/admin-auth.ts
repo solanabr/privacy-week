@@ -2,7 +2,7 @@ import "server-only";
 
 import { headers } from "next/headers";
 
-import { authenticateBasic, getAdminUsers } from "./auth";
+import { ADMIN_AUTH_HEADER, authenticateBasic, getAdminUsers } from "./auth";
 
 /**
  * Resolve the authenticated admin (judge) name from the request headers.
@@ -12,7 +12,8 @@ import { authenticateBasic, getAdminUsers } from "./auth";
  */
 export async function getAdminUser(): Promise<string | null> {
   const headerList = await headers();
-  return authenticateBasic(headerList.get("authorization"), getAdminUsers());
+  const forwarded = headerList.get(ADMIN_AUTH_HEADER);
+  return authenticateBasic(forwarded, getAdminUsers());
 }
 
 export async function requireAdmin(): Promise<string> {
