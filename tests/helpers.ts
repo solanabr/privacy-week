@@ -43,3 +43,46 @@ export function buildFormData(overrides: FormOverrides = {}): FormData {
 export function words(count: number): string {
   return Array.from({ length: count }, (_, index) => `p${index}`).join(" ");
 }
+
+export function makeSubmissionRow(
+  overrides: Partial<import("@/lib/db/submissions").SubmissionRow> = {},
+): import("@/lib/db/submissions").SubmissionRow {
+  return {
+    id: "00000000-0000-0000-0000-000000000000",
+    number: 7,
+    slug: "projeto-exemplo-abc123",
+    project_name: "Projeto Exemplo",
+    team_name: "Time Exemplo",
+    tagline: "Uma frase com mais de dez caracteres.",
+    category: "cloak",
+    tech: "cloak",
+    repo_url: "https://github.com/exemplo/projeto",
+    sprint_changes: "PR #1",
+    proof_type: "solana_tx",
+    proof_value: "5".repeat(88),
+    demo_video_url: "https://www.youtube.com/watch?v=abc",
+    writeup: "Texto de privacidade.",
+    colosseum_url: null,
+    website_url: null,
+    members: [
+      { name: "Integrante Um", github: "um" },
+      { name: "Integrante Dois" },
+    ],
+    show_members: true,
+    contact_name: "Pessoa Secreta",
+    contact_email: "private-contact@example.com",
+    contact_telegram: "@naoexpor",
+    contact_whatsapp: "+5511999999999",
+    accepted_rules: true,
+    status: "submitted",
+    is_winner: false,
+    prize_pool: null,
+    payout_status: "pending",
+    admin_notes: "nota interna secreta",
+    edit_token_hash: "deadbeef".repeat(8),
+    ip_hash: "cafebabe".repeat(8),
+    created_at: "2026-10-01T12:00:00.000Z",
+    updated_at: "2026-10-01T12:00:00.000Z",
+    ...overrides,
+  };
+}
