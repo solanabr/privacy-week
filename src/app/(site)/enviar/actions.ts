@@ -121,9 +121,3 @@ export async function updateSubmissionAction(
 
   return { status: "saved", message: "Alterações salvas." };
 }
-
-export async function clearFlashCookie(): Promise<void> {
-  const cookieStore = await cookies();
-  cookieStore.delete({ name: FLASH_COOKIE, path: "/enviar/sucesso" });
-  redirect("/");
-}

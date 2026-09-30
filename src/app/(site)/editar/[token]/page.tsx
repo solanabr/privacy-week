@@ -33,7 +33,7 @@ export default async function EditarPage(props: PageProps<"/editar/[token]">) {
           <p className="text-base text-muted">{editPage.subtitle}</p>
         ) : (
           <p className="text-base font-semibold text-danger">
-            As submissões estão encerradas. O formulário abaixo está desativado.
+            {editPage.closedMessage}
           </p>
         )}
       </div>

@@ -2,6 +2,7 @@ import { TODO_MARCELO } from "./site";
 
 export const submissionForm = {
   title: "Enviar projeto",
+  honeypotLabel: "Não preencha este campo",
   intro:
     "Preencha os dados do seu projeto. Você pode editar tudo pelo link que aparece depois do envio, até sábado, 03/10, às 23:59.",
   sections: {
@@ -23,7 +24,11 @@ export const submissionForm = {
       label: "Construído com",
       help: "Define em qual pool de prêmios o projeto concorre: 500 USDC para Cloak, 500 USDC para Zcash.",
     },
-    repo_url: { label: "Repositório no GitHub", help: "" },
+    repo_url: {
+      label: "Repositório no GitHub",
+      help: "",
+      placeholder: "https://github.com/…",
+    },
     sprint_changes: {
       label: "O que foi feito no sprint",
       help: "Branch, PR ou intervalo de commits feitos entre quarta e sábado.",
@@ -43,6 +48,7 @@ export const submissionForm = {
     colosseum_url: { label: "Página do projeto no Colosseum", help: "Opcional." },
     website_url: { label: "Site do projeto", help: "Opcional." },
     members: { label: "Integrantes", help: "De 1 a 6 pessoas." },
+    memberRow: "Integrante",
     member_name: "Nome",
     member_x: "X (Twitter)",
     member_github: "GitHub",
@@ -91,6 +97,7 @@ export const editPage = {
   subtitle:
     "Você pode editar o projeto até sábado, 03/10, às 23:59 (horário de Brasília).",
   submit: "Salvar alterações",
+  closedMessage: "As submissões estão encerradas. O formulário abaixo está desativado.",
   saved: "Alterações salvas.",
   notFoundTitle: "Link não encontrado",
   notFoundBody: "Este link de edição não existe ou não é mais válido.",

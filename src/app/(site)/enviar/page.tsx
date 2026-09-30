@@ -1,3 +1,5 @@
+import { connection } from "next/server";
+
 import { Eyebrow } from "@/components/eyebrow";
 import { Section } from "@/components/section";
 import { closedPage, submissionForm } from "@/content/form";
@@ -7,7 +9,8 @@ import { getWindowState } from "@/lib/window";
 import { createSubmissionAction } from "./actions";
 import { SubmissionForm } from "@/components/submission-form";
 
-export default function EnviarPage() {
+export default async function EnviarPage() {
+  await connection();
   const windowState = getWindowState();
 
   if (windowState !== "open") {

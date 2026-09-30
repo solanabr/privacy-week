@@ -56,11 +56,12 @@ export function SubmissionForm({
 }: SubmissionFormProps) {
   const [state, formAction] = useActionState(action, initialFormState);
   const fieldErrors = state.fieldErrors ?? {};
+  const values = state.values ?? initialValues;
 
-  const [writeup, setWriteup] = useState(initialValues.writeup);
-  const [proofType, setProofType] = useState(initialValues.proof_type);
+  const [writeup, setWriteup] = useState(values.writeup);
+  const [proofType, setProofType] = useState(values.proof_type);
   const [members, setMembers] = useState<MemberRow[]>(
-    initialValues.members.map((member) => ({ ...member, id: memberId++ })),
+    values.members.map((member) => ({ ...member, id: memberId++ })),
   );
 
   const words = countWords(writeup);
@@ -102,7 +103,7 @@ export function SubmissionForm({
 
       {/* Honeypot */}
       <div className="absolute left-[-9999px] top-auto h-0 w-0 overflow-hidden" aria-hidden>
-        <label htmlFor="website">Não preencha este campo</label>
+        <label htmlFor="website">{submissionForm.honeypotLabel}</label>
         <input
           id="website"
           name="website"
@@ -127,7 +128,7 @@ export function SubmissionForm({
           <input
             id="project_name"
             name="project_name"
-            defaultValue={initialValues.project_name}
+            defaultValue={values.project_name}
             maxLength={80}
             required
             className={inputClass}
@@ -143,7 +144,7 @@ export function SubmissionForm({
           <input
             id="team_name"
             name="team_name"
-            defaultValue={initialValues.team_name}
+            defaultValue={values.team_name}
             maxLength={80}
             className={inputClass}
           />
@@ -158,7 +159,7 @@ export function SubmissionForm({
           <input
             id="tagline"
             name="tagline"
-            defaultValue={initialValues.tagline}
+            defaultValue={values.tagline}
             maxLength={140}
             required
             className={inputClass}
@@ -175,7 +176,7 @@ export function SubmissionForm({
             <select
               id="category"
               name="category"
-              defaultValue={initialValues.category || ""}
+              defaultValue={values.category || ""}
               required
               className={inputClass}
             >
@@ -200,7 +201,7 @@ export function SubmissionForm({
             <select
               id="tech"
               name="tech"
-              defaultValue={initialValues.tech || ""}
+              defaultValue={values.tech || ""}
               required
               className={inputClass}
             >
@@ -227,8 +228,8 @@ export function SubmissionForm({
             name="repo_url"
             type="url"
             inputMode="url"
-            placeholder="https://github.com/…"
-            defaultValue={initialValues.repo_url}
+            placeholder={submissionForm.fields.repo_url.placeholder}
+            defaultValue={values.repo_url}
             required
             className={inputClass}
           />
@@ -244,7 +245,7 @@ export function SubmissionForm({
           <textarea
             id="sprint_changes"
             name="sprint_changes"
-            defaultValue={initialValues.sprint_changes}
+            defaultValue={values.sprint_changes}
             maxLength={300}
             required
             className={`${inputClass} min-h-24`}
@@ -293,7 +294,7 @@ export function SubmissionForm({
           <input
             id="proof_value"
             name="proof_value"
-            defaultValue={initialValues.proof_value}
+            defaultValue={values.proof_value}
             required
             className={inputClass}
           />
@@ -311,7 +312,7 @@ export function SubmissionForm({
             name="demo_video_url"
             type="url"
             inputMode="url"
-            defaultValue={initialValues.demo_video_url}
+            defaultValue={values.demo_video_url}
             required
             className={inputClass}
           />
@@ -356,7 +357,7 @@ export function SubmissionForm({
               name="colosseum_url"
               type="url"
               inputMode="url"
-              defaultValue={initialValues.colosseum_url}
+              defaultValue={values.colosseum_url}
               className={inputClass}
             />
           </Field>
@@ -372,7 +373,7 @@ export function SubmissionForm({
               name="website_url"
               type="url"
               inputMode="url"
-              defaultValue={initialValues.website_url}
+              defaultValue={values.website_url}
               className={inputClass}
             />
           </Field>
@@ -401,7 +402,7 @@ export function SubmissionForm({
               className="cut-corner-sm border border-ink/15 bg-surface-raised p-4"
             >
               <div className="mb-3 flex items-center justify-between">
-                <span className="u-mono text-muted">Integrante {index + 1}</span>
+                <span className="u-mono text-muted">{submissionForm.fields.memberRow} {index + 1}</span>
                 {members.length > 1 ? (
                   <button
                     type="button"
@@ -477,7 +478,7 @@ export function SubmissionForm({
           <input
             type="checkbox"
             name="show_members"
-            defaultChecked={initialValues.show_members}
+            defaultChecked={values.show_members}
             className="h-4 w-4 accent-emerald"
           />
           {submissionForm.fields.show_members}
@@ -500,7 +501,7 @@ export function SubmissionForm({
             <input
               id="contact_name"
               name="contact_name"
-              defaultValue={initialValues.contact_name}
+              defaultValue={values.contact_name}
               required
               className={inputClass}
             />
@@ -516,7 +517,7 @@ export function SubmissionForm({
               id="contact_email"
               name="contact_email"
               type="email"
-              defaultValue={initialValues.contact_email}
+              defaultValue={values.contact_email}
               required
               className={inputClass}
             />
@@ -530,7 +531,7 @@ export function SubmissionForm({
             <input
               id="contact_telegram"
               name="contact_telegram"
-              defaultValue={initialValues.contact_telegram}
+              defaultValue={values.contact_telegram}
               className={inputClass}
             />
           </Field>
@@ -543,7 +544,7 @@ export function SubmissionForm({
             <input
               id="contact_whatsapp"
               name="contact_whatsapp"
-              defaultValue={initialValues.contact_whatsapp}
+              defaultValue={values.contact_whatsapp}
               className={inputClass}
             />
           </Field>
@@ -559,7 +560,7 @@ export function SubmissionForm({
           <input
             type="checkbox"
             name="accepted_rules"
-            defaultChecked={initialValues.accepted_rules}
+            defaultChecked={values.accepted_rules}
             required
             className="mt-1 h-4 w-4 accent-emerald"
           />
