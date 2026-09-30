@@ -11,9 +11,10 @@ Run these steps only after Marcelo signs off on the local site. This document is
 
 2. **Create Vercel project**
    - Import the `solanabr/privacy-week` repository into Vercel.
-   - Set the production environment variables: `SUPABASE_URL`, a new `SUPABASE_SERVICE_ROLE_KEY`, `SITE_URL=https://privacy.superteam.com.br`, `SUBMISSIONS_OPEN_AT`, `SUBMISSIONS_CLOSE_AT`, strong unique `ADMIN_USERS` credentials, a new random `IP_HASH_SALT`, and `RESULTS_PUBLISHED=false` until the organizers approve results.
+   - Set the production environment variables: `SUPABASE_URL`, a new `SUPABASE_SERVICE_ROLE_KEY`, `SITE_URL=https://privacy.superteam.com.br`, `X_CLIENT_ID`, `X_CLIENT_SECRET`, `SUBMISSIONS_OPEN_AT`, `SUBMISSIONS_CLOSE_AT`, strong unique `ADMIN_USERS` credentials, a new random `IP_HASH_SALT`, and `RESULTS_PUBLISHED=false` until the organizers approve results.
    - Do not configure any `NEXT_PUBLIC_` Supabase variables.
    - Do not set `DEV_NOW` in production.
+   - Create an X Developer Web App with OAuth 2.0 enabled. Register `https://privacy.superteam.com.br/auth/x/callback` exactly and allow the `users.read tweet.read` scopes. Keep the client secret in server-only environment variables.
 
 3. **Configure the domain**
    - Add `privacy.superteam.com.br` to the Vercel project.
@@ -25,7 +26,7 @@ Run these steps only after Marcelo signs off on the local site. This document is
    - Keep the current rate limit and honeypot active.
 
 5. **Production smoke test**
-   - Submit a clearly identified test project, verify its public fields, and edit it with the one-time link.
+   - Connect an X account, submit a clearly identified test project, verify its public fields, and edit it with the one-time link.
    - Confirm private contact details appear only in `/admin` and the admin CSV.
    - Check that hide/unhide, winner selection, judging, payout status, and CSV export work.
    - Delete the test row from the Supabase Dashboard after verification, using its unique project name.

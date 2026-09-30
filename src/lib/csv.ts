@@ -22,6 +22,8 @@ export const CSV_FIELDS = [
   "website_url",
   "members",
   "show_members",
+  "x_user_id",
+  "x_username",
   "contact_name",
   "contact_email",
   "contact_telegram",

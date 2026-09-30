@@ -29,7 +29,7 @@ The application uses Next.js App Router, TypeScript, Tailwind CSS v4, and a loca
 
    Copy the local API URL and service-role key from `supabase status` into `.env.local`. The service-role key is server-only and must not be committed or prefixed with `NEXT_PUBLIC_`.
 
-3. Copy `.env.example` to `.env.local` if you have not already, then set the values for the local database, a private `ADMIN_USERS` password, and a long random `IP_HASH_SALT`. Set `SITE_URL=http://localhost:3000` for normal development. `ADMIN_USERS` accepts comma-separated `name:password` pairs; the name is recorded as the judge on scores.
+3. Copy `.env.example` to `.env.local` if you have not already, then set the values for the local database, a private `ADMIN_USERS` password, and a long random `IP_HASH_SALT`. Set `SITE_URL=http://localhost:3000` for normal development. `ADMIN_USERS` accepts comma-separated `name:password` pairs; the name is recorded as the judge on scores. For manual X login, set `X_CLIENT_ID` and `X_CLIENT_SECRET` from a Web App OAuth 2.0 app and register `${SITE_URL}/auth/x/callback` as a callback URL. E2E tests use a local mock X provider and do not need real X credentials.
 
 4. Apply the migration and local example data when starting with a fresh local database:
 
@@ -59,17 +59,19 @@ pnpm db:reset
 pnpm db:types
 ```
 
-`pnpm test:e2e` expects the local Supabase stack and `.env.local` to be configured. It runs the open-window flow and a separate closed-window check. The open-window flow creates a fake submission and leaves it hidden in the local database after checking moderation and CSV export. Use `pnpm db:reset` when you want to clear local test data and restore the three examples.
+`pnpm test:e2e` expects the local Supabase stack and `.env.local` to be configured. It runs the X PKCE connect-and-submit flow against a local mock provider, then checks the open-window submission/edit/gallery/admin/CSV flow and a separate closed-window check. The open-window flow creates a fake submission and leaves it hidden in the local database after checking moderation and CSV export. Use `pnpm db:reset` when you want to clear local test data and restore the three examples.
 
 ## Editing copy
 
-All organizer-facing site copy lives in typed files under `src/content/`. Keep unresolved decisions visible as `TODO(Marcelo)` markers and do not replace them with guessed facts. Content is in Brazilian Portuguese; developer documentation, code, comments, and commit messages are in English.
+All organizer-facing site copy lives in typed files under `src/content/`. Use organizer-confirmed facts and keep public copy in Brazilian Portuguese; developer documentation, code, comments, and commit messages are in English.
 
 ## Security notes
 
 - Supabase reads and writes use `src/lib/db/server.ts` on the server only.
 - RLS is enabled on `submissions` and `judge_scores`, with no policies for `anon` or `authenticated`.
 - Public queries in `src/lib/db/submissions.ts` use an explicit field whitelist and return only rows with `status = 'submitted'`.
+- New submissions require an X OAuth 2.0 Authorization Code + PKCE connection; the server action verifies a signed, HTTP-only session cookie rather than trusting submitted form fields.
+- Only the verified X user ID and username are retained on the private submission row for admin review; access tokens are discarded, and public queries never select the X identity columns.
 - Edit links contain a random 32-byte token; only its SHA-256 hash is stored. The raw token travels through a short-lived HTTP-only cookie to the one-time success page.
 - The database never stores a Cloak payment link. Admins track only the payout status.
 - `/admin/**` uses HTTP Basic Auth from `ADMIN_USERS`; every admin Server Action checks the credentials again.

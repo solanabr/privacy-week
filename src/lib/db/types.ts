@@ -115,6 +115,8 @@ export type Database = {
           updated_at: string
           website_url: string | null
           writeup: string
+          x_user_id: string | null
+          x_username: string | null
         }
         Insert: {
           accepted_rules: boolean
@@ -149,6 +151,8 @@ export type Database = {
           updated_at?: string
           website_url?: string | null
           writeup: string
+          x_user_id?: string | null
+          x_username?: string | null
         }
         Update: {
           accepted_rules?: boolean
@@ -183,6 +187,8 @@ export type Database = {
           updated_at?: string
           website_url?: string | null
           writeup?: string
+          x_user_id?: string | null
+          x_username?: string | null
         }
         Relationships: []
       }

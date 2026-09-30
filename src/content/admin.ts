@@ -72,6 +72,7 @@ export const admin = {
     tech: "Construído com",
     project: "Projeto",
     team: "Time",
+    xAccount: "Conta do X conectada",
     number: "Número",
     disqualifiedStatus: "Desclassificado",
     submittedStatus: "Enviado",

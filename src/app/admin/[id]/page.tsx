@@ -62,6 +62,7 @@ export default async function AdminDetailPage({
               <DataField label={admin.fields.colosseum} value={submission.colosseum_url ?? admin.fields.none} link />
               <DataField label={admin.fields.website} value={submission.website_url ?? admin.fields.none} link />
               <DataField label={admin.fields.members} value={members.map((member) => [member.name, member.x, member.github].filter(Boolean).join(" · ")).join("; ") || admin.fields.none} />
+              <DataField label={admin.fields.xAccount} value={submission.x_username ? `@${submission.x_username} (${submission.x_user_id})` : admin.fields.none} />
               <DataField label={admin.fields.contactName} value={submission.contact_name} />
               <DataField label={admin.fields.contactEmail} value={submission.contact_email} />
               <DataField label={admin.fields.contactTelegram} value={submission.contact_telegram ?? admin.fields.none} />

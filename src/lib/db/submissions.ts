@@ -214,7 +214,11 @@ function toInsertPayload(data: SubmissionData) {
 
 export async function createSubmission(
   data: SubmissionData,
-  options: { editTokenHash: string; ipHash: string | null },
+  options: {
+    editTokenHash: string;
+    ipHash: string | null;
+    xAccount: { id: string; username: string };
+  },
 ): Promise<CreateSubmissionResult> {
   const slug = makeSlug(data.project_name);
   const { data: inserted, error } = await getDb()
@@ -224,6 +228,8 @@ export async function createSubmission(
       slug,
       edit_token_hash: options.editTokenHash,
       ip_hash: options.ipHash,
+      x_user_id: options.xAccount.id,
+      x_username: options.xAccount.username,
     })
     .select("id, number, slug")
     .single();

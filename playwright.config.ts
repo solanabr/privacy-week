@@ -34,7 +34,7 @@ export default defineConfig({
   expect: { timeout: 10_000 },
   reporter: "list",
   use: {
-    baseURL: "http://127.0.0.1:3100",
+    baseURL: "http://localhost:3100",
     screenshot: "only-on-failure",
     trace: "retain-on-failure",
   },
@@ -45,8 +45,11 @@ export default defineConfig({
     timeout: 120_000,
     env: {
       DEV_NOW: process.env.PW_DEV_NOW ?? "2026-10-01T12:00:00-03:00",
-      SITE_URL: "http://127.0.0.1:3100",
+      SITE_URL: "http://localhost:3100",
       IP_HASH_SALT: "",
+      PW_MOCK_X: "1",
+      X_CLIENT_ID: "e2e-client-id",
+      X_CLIENT_SECRET: "e2e-client-secret",
     },
   },
 });

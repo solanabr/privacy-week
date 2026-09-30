@@ -11,6 +11,7 @@ import { isRateLimited } from "@/lib/ratelimit";
 import { generateEditToken, hashEditToken, hashIp } from "@/lib/tokens";
 import { validateSubmissionFormData } from "@/lib/validation";
 import { getWindowState } from "@/lib/window";
+import { getConnectedXAccount } from "@/lib/x-oauth";
 
 const CLOSED_MESSAGES = {
   before: submissionForm.errors.notOpenYet,
@@ -43,6 +44,11 @@ export async function createSubmissionAction(
   const closed = windowError();
   if (closed) return closed;
 
+  const xAccount = await getConnectedXAccount();
+  if (!xAccount) {
+    return { status: "error", message: submissionForm.errors.xRequired };
+  }
+
   const ipHash = await hashClientIp();
   if (await isRateLimited(ipHash)) {
     return { status: "error", message: submissionForm.errors.rateLimited };
@@ -63,6 +69,7 @@ export async function createSubmissionAction(
     await createSubmission(validation.data, {
       editTokenHash: hashEditToken(token),
       ipHash,
+      xAccount,
     });
   } catch (error) {
     console.error("Failed to create submission", error);

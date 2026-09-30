@@ -2,6 +2,7 @@
 
 import { useActionState, useState } from "react";
 import { useFormStatus } from "react-dom";
+import Link from "next/link";
 
 import { submissionForm } from "@/content/form";
 import {
@@ -32,6 +33,9 @@ interface SubmissionFormProps {
   ) => Promise<SubmissionFormState>;
   initialValues: SubmissionFormValues;
   submitLabel: string;
+  requireXAccount?: boolean;
+  connectedXUsername?: string | null;
+  xConnectionError?: string | null;
 }
 
 interface MemberRow extends MemberFormValue {
@@ -40,10 +44,16 @@ interface MemberRow extends MemberFormValue {
 
 let memberId = 0;
 
-function SubmitButton({ label }: { label: string }) {
+function SubmitButton({
+  label,
+  disabled,
+}: {
+  label: string;
+  disabled: boolean;
+}) {
   const { pending } = useFormStatus();
   return (
-    <CutButton type="submit" disabled={pending}>
+    <CutButton type="submit" disabled={pending || disabled}>
       {pending ? submissionForm.submitting : label}
     </CutButton>
   );
@@ -53,6 +63,9 @@ export function SubmissionForm({
   action,
   initialValues,
   submitLabel,
+  requireXAccount = false,
+  connectedXUsername = null,
+  xConnectionError = null,
 }: SubmissionFormProps) {
   const [state, formAction] = useActionState(action, initialFormState);
   const fieldErrors = state.fieldErrors ?? {};
@@ -112,6 +125,35 @@ export function SubmissionForm({
           autoComplete="off"
         />
       </div>
+
+      {requireXAccount ? (
+        <fieldset className="cut-corner-sm flex flex-col gap-3 border border-ink/15 bg-surface-raised p-4 sm:flex-row sm:items-center sm:justify-between">
+          <legend className="u-mono px-1 text-emerald">
+            {submissionForm.xConnection.title}
+          </legend>
+          <div className="flex min-w-0 flex-col gap-1">
+            <p className="font-semibold">
+              {connectedXUsername
+                ? submissionForm.xConnection.connected(connectedXUsername)
+                : submissionForm.xConnection.disconnected}
+            </p>
+            <p className="text-xs text-muted">{submissionForm.xConnection.privacy}</p>
+            {xConnectionError ? (
+              <p role="alert" className="text-xs font-semibold text-danger">
+                {xConnectionError}
+              </p>
+            ) : null}
+          </div>
+          <Link
+            href="/auth/x/start"
+            className="cut-corner-sm inline-flex min-h-11 shrink-0 items-center justify-center bg-surface-kraft px-4 font-display text-sm font-extrabold uppercase"
+          >
+            {connectedXUsername
+              ? submissionForm.xConnection.change
+              : submissionForm.xConnection.connect}
+          </Link>
+        </fieldset>
+      ) : null}
 
       {/* Project */}
       <fieldset className="flex flex-col gap-6">
@@ -578,7 +620,10 @@ export function SubmissionForm({
       </fieldset>
 
       <div className="flex flex-wrap items-center gap-4">
-        <SubmitButton label={submitLabel} />
+        <SubmitButton
+          label={submitLabel}
+          disabled={requireXAccount && !connectedXUsername}
+        />
         <span className="text-xs text-muted">
           {submissionForm.requiredHint}
         </span>

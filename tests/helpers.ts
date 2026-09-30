@@ -79,6 +79,8 @@ export function makeSubmissionRow(
     prize_pool: null,
     payout_status: "pending",
     admin_notes: "nota interna secreta",
+    x_user_id: null,
+    x_username: null,
     edit_token_hash: "deadbeef".repeat(8),
     ip_hash: "cafebabe".repeat(8),
     created_at: "2026-10-01T12:00:00.000Z",

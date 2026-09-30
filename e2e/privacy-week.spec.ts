@@ -96,6 +96,20 @@ test("@open submission, public gallery, admin review and CSV export", async ({ p
 
   await page.goto("/enviar");
   await saveScreenshot(page, "submission-form.png");
+  const submitButton = page.getByRole("button", { name: "Enviar projeto" });
+  await expect(submitButton).toBeDisabled();
+  await expect(page.getByRole("link", { name: "Conectar com X" })).toBeVisible();
+
+  await page.goto("/auth/x/callback?code=forged&state=forged");
+  await expect(page).toHaveURL(/x_error=invalid_state/);
+  await expect(submitButton).toBeDisabled();
+
+  await page.getByRole("link", { name: "Conectar com X" }).click();
+  await expect(page).toHaveURL(/x_connected=1/);
+  await expect(page.getByText("Conta conectada: @e2e_builder")).toBeVisible();
+  await expect(submitButton).toBeEnabled();
+  await saveScreenshot(page, "submission-form-connected.png");
+
   await page.getByLabel("Nome do projeto").fill(projectName);
   await page.getByLabel("Nome do time").fill("Time E2E");
   await page.getByLabel("Em uma frase, o que o projeto faz").fill("Um produto de teste com privacidade.");
@@ -127,10 +141,14 @@ test("@open submission, public gallery, admin review and CSV export", async ({ p
   await page.goto("/projetos");
   await expect(page.getByText(projectName)).toBeVisible();
   expect(await page.content()).not.toContain(contactEmail);
+  expect(await page.content()).not.toContain("e2e_builder");
+  expect(await page.content()).not.toContain("900000000000000001");
   await saveScreenshot(page, "projects-gallery.png");
   await page.getByRole("link", { name: "Ver projeto" }).first().click();
   await expect(page.getByRole("heading", { name: projectName })).toBeVisible();
   expect(await page.content()).not.toContain(contactEmail);
+  expect(await page.content()).not.toContain("e2e_builder");
+  expect(await page.content()).not.toContain("900000000000000001");
   await saveScreenshot(page, "project-detail.png");
 
   const username = process.env.PW_ADMIN_USERNAME;
@@ -144,6 +162,8 @@ test("@open submission, public gallery, admin review and CSV export", async ({ p
   await saveScreenshot(adminPage, "admin-list.png");
   await adminPage.getByRole("link", { name: projectName }).click();
   await expect(adminPage.getByText(contactEmail)).toBeVisible();
+  await expect(adminPage.getByText(/@e2e_builder/)).toBeVisible();
+  await expect(adminPage.getByText("900000000000000001")).toBeVisible();
   await saveScreenshot(adminPage, "admin-detail.png");
 
   await adminPage.locator('select[name="status"]').selectOption("hidden");
@@ -172,6 +192,7 @@ test("@open submission, public gallery, admin review and CSV export", async ({ p
   expect(csvResponse.status()).toBe(200);
   const csv = await csvResponse.text();
   expect(csv).toContain(contactEmail);
+  expect(csv).toContain("e2e_builder");
   expect(csv).not.toContain("edit_token_hash");
   expect(csv).not.toContain("ip_hash");
   await adminPage.goto("/admin?status=submitted");

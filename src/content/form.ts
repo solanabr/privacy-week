@@ -1,6 +1,23 @@
 export const submissionForm = {
   title: "Enviar projeto",
   honeypotLabel: "Não preencha este campo",
+  xConnection: {
+    title: "Conta do X",
+    disconnected:
+      "Conecte sua conta do X antes de enviar o projeto. Faça isso primeiro para não perder o que preencher no formulário.",
+    privacy:
+      "A conta conectada fica registrada em privado para conferência e não aparece na página pública.",
+    connected: (username: string) => `Conta conectada: @${username}`,
+    connect: "Conectar com X",
+    change: "Trocar conta",
+    notConfigured:
+      "A conexão com X ainda não está configurada. Avise a organização para liberar os envios.",
+    denied: "A conexão foi cancelada. Conecte uma conta do X para continuar.",
+    invalidState:
+      "Não foi possível validar a conexão com X. Tente conectar novamente.",
+    failed:
+      "Não foi possível confirmar sua conta do X. Tente conectar novamente.",
+  },
   intro:
     "Preencha os dados do seu projeto. Você pode editar tudo pelo link que aparece depois do envio, até sábado, 03/10, às 23:59.",
   sections: {
@@ -67,6 +84,7 @@ export const submissionForm = {
   submitting: "Enviando…",
   requiredHint: "Campos marcados com * são obrigatórios.",
   errors: {
+    xRequired: "Conecte sua conta do X antes de enviar o projeto.",
     rateLimited:
       "Muitos envios deste endereço em pouco tempo. Tente de novo mais tarde.",
     closed: "As submissões estão encerradas.",
