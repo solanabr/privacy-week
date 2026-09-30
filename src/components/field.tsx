@@ -9,6 +9,7 @@ export function Field({
   help,
   error,
   required,
+  alignControl,
   children,
 }: {
   label: string;
@@ -16,6 +17,7 @@ export function Field({
   help?: string;
   error?: string;
   required?: boolean;
+  alignControl?: boolean;
   children: React.ReactNode;
 }) {
   return (
@@ -28,7 +30,7 @@ export function Field({
         {required ? <span aria-hidden> *</span> : null}
       </label>
       {help ? <p className="text-xs text-muted">{help}</p> : null}
-      {children}
+      <div className={alignControl ? "mt-auto" : undefined}>{children}</div>
       {error ? (
         <p role="alert" className="text-xs font-semibold text-danger">
           {error}

@@ -1,5 +1,3 @@
-import { TODO_MARCELO } from "./site";
-
 export const hero = {
   eyebrow: "SUPERTEAM BRASIL · PRIVACY WEEK",
   headline: "COLOQUE PRIVACIDADE NO SEU PROJETO.",
@@ -225,12 +223,10 @@ export const calendar = {
     { when: "Qua 30/09 a Sáb 03/10", what: "Build" },
     {
       when: "Qui 01/10 e Sex 02/10",
-      what: "Office hours",
-      todo: TODO_MARCELO,
-      todoNote: "horário e local",
+      what: "Office hours, das 10h às 19h, na Solana House",
     },
     { when: "Sáb 03/10, 23:59", what: "Encerramento das submissões" },
-    { when: TODO_MARCELO, what: "Resultado", todo: true },
+    { when: "Sáb 10/10", what: "Resultado" },
     {
       when: "Ter 13/10, 03:59",
       what: "Prazo do Hackathon da Colosseum (12/10, 23:59 PT)",
@@ -369,14 +365,13 @@ export const ideas = {
 export interface FaqItem {
   question: string;
   answer: string;
-  todo?: boolean;
 }
 
 export const faq: FaqItem[] = [
   {
     question: "Quem pode participar?",
-    answer: TODO_MARCELO,
-    todo: true,
+    answer:
+      "Quem participa do Hackathon da Colosseum e faz parte do the/Garage.",
   },
   {
     question: "Posso participar sozinho?",
@@ -417,13 +412,12 @@ export const faq: FaqItem[] = [
   },
   {
     question: "Quem julga?",
-    answer: TODO_MARCELO,
-    todo: true,
+    answer: "Victor, Marcelo e Matheus, da Cloak.",
   },
   {
     question: "Onde tiro dúvidas?",
-    answer: `Marcelo e Victor (Cloak) no the/Garage depois do workshop, office hours na quinta e na sexta, e ${TODO_MARCELO}: link do grupo de suporte.`,
-    todo: true,
+    answer:
+      "No the/Garage, na Solana House. As office hours são quinta, 01/10, e sexta, 02/10, das 10h às 19h.",
   },
 ];
 

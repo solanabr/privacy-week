@@ -8,7 +8,6 @@ import { Redaction } from "@/components/redaction";
 import { Section } from "@/components/section";
 import { ShieldedPoolDiagram } from "@/components/shielded-pool-diagram";
 import { TicketCard } from "@/components/ticket";
-import { TodoBadge } from "@/components/todo-badge";
 import {
   calendar,
   challenge,
@@ -29,7 +28,7 @@ import {
   results,
   whyPrivacy,
 } from "@/content/home";
-import { cta, sectionIds, site, TODO_MARCELO } from "@/content/site";
+import { cta, sectionIds, site } from "@/content/site";
 import { getSubmissionWindow, getWindowState } from "@/lib/window";
 
 export const revalidate = 60;
@@ -317,12 +316,6 @@ export default function HomePage() {
                 {row.when}
               </span>
               <span className="text-sm text-ink/90">{row.what}</span>
-              {"todo" in row && row.todo ? (
-                <TodoBadge
-                  label={TODO_MARCELO}
-                  note={"todoNote" in row ? row.todoNote : undefined}
-                />
-              ) : null}
             </li>
           ))}
         </ol>
@@ -404,9 +397,6 @@ export default function HomePage() {
                 {item.question}
               </summary>
               <div className="mt-3 flex flex-col gap-2 text-sm text-ink/90">
-                {item.todo ? (
-                  <TodoBadge label={TODO_MARCELO} />
-                ) : null}
                 <p>{item.answer}</p>
               </div>
             </details>

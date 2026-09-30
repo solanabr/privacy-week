@@ -1,11 +1,8 @@
 /**
  * Site-wide copy and metadata (PT-BR).
  *
- * Organizers edit wording here. `TODO_MARCELO` marks content that still needs a
- * decision from Marcelo; it is rendered as a visible placeholder.
+ * Organizers edit wording here. Keep the public-facing copy in this module.
  */
-
-export const TODO_MARCELO = "TODO(Marcelo)";
 
 export const site = {
   brand: "Privacy Week",
@@ -16,8 +13,6 @@ export const site = {
   description:
     "Um desafio de quarta a sábado para quem está construindo no Hackathon da Colosseum. 1000 USDC em 10 prêmios para projetos com Cloak e Zcash.",
   tagline: "Coloque privacidade no seu projeto.",
-  /** TODO(Marcelo): official logo files; until then a text wordmark. */
-  logo: TODO_MARCELO,
 } as const;
 
 export const nav = [
@@ -59,10 +54,29 @@ export const cta = {
 } as const;
 
 export const footer = {
-  /** TODO(Marcelo): confirm how organizers and any sponsors should be credited. */
-  credit: TODO_MARCELO,
-  creditNote:
-    "Não liste o Zcash nem qualquer outra pessoa como patrocinador até confirmação.",
+  sponsors: [
+    {
+      name: "Cloak",
+      href: "https://www.cloak.ag",
+      logo: "/brands/cloak-logo.png",
+      width: 200,
+      height: 55,
+    },
+    {
+      name: "Zcash Brasil",
+      href: "https://zcashbr.com",
+      logo: "/brands/zcash-brasil.png",
+      width: 512,
+      height: 512,
+    },
+    {
+      name: "Superteam Brasil",
+      href: "https://hackathon.superteam.com.br",
+      logo: "/brands/superteam-brasil.svg",
+      width: 508,
+      height: 87,
+    },
+  ],
   links: [
     { href: "https://docs.cloak.ag", label: "docs.cloak.ag" },
     { href: "https://hackathon.superteam.com.br", label: "Hackathon Superteam Brasil" },

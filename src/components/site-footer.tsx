@@ -1,8 +1,7 @@
 import Link from "next/link";
+import Image from "next/image";
 
 import { footer, site } from "@/content/site";
-
-import { TodoBadge } from "./todo-badge";
 
 export function SiteFooter() {
   return (
@@ -12,11 +11,32 @@ export function SiteFooter() {
           <p className="font-display text-xl font-extrabold uppercase tracking-tight">
             {site.brand} · {site.organizer}
           </p>
-          <div className="flex flex-wrap items-center gap-2">
-            <span className="u-mono text-surface-raised/70">
-              organizado com Cloak
-            </span>
-            <TodoBadge label={footer.credit} note={footer.creditNote} />
+          <div className="flex flex-col gap-3">
+            <p className="u-mono text-surface-raised/70">Patrocinadores</p>
+            <ul className="flex flex-wrap items-center gap-3">
+              {footer.sponsors.map((sponsor) => (
+                <li key={sponsor.name}>
+                  <Link
+                    href={sponsor.href}
+                    className="flex h-16 min-w-40 items-center justify-center rounded-sm bg-surface-raised px-5 py-3"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >
+                    <Image
+                      src={sponsor.logo}
+                      width={sponsor.width}
+                      height={sponsor.height}
+                      alt={sponsor.name}
+                      className={
+                        sponsor.name === "Zcash Brasil"
+                          ? "h-10 w-10 object-contain"
+                          : "h-8 w-auto max-w-36 object-contain"
+                      }
+                    />
+                  </Link>
+                </li>
+              ))}
+            </ul>
           </div>
         </div>
 

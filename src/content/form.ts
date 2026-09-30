@@ -1,5 +1,3 @@
-import { TODO_MARCELO } from "./site";
-
 export const submissionForm = {
   title: "Enviar projeto",
   honeypotLabel: "Não preencha este campo",
@@ -111,6 +109,3 @@ export const closedPage = {
   closedBody:
     "O prazo terminou em sábado, 03/10, às 23:59. Veja os projetos enviados na galeria.",
 } as const;
-
-/** TODO(Marcelo): nothing to fill here yet; kept for the support channel copy. */
-export const supportChannel = TODO_MARCELO;

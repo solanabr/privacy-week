@@ -171,6 +171,7 @@ export function SubmissionForm({
             label={submissionForm.fields.category.label}
             htmlFor="category"
             required
+            alignControl
             error={fieldErrors.category}
           >
             <select
@@ -196,6 +197,7 @@ export function SubmissionForm({
             htmlFor="tech"
             help={submissionForm.fields.tech.help}
             required
+            alignControl
             error={fieldErrors.tech}
           >
             <select
@@ -496,6 +498,7 @@ export function SubmissionForm({
             label={submissionForm.fields.contact_name.label}
             htmlFor="contact_name"
             required
+            alignControl
             error={fieldErrors.contact_name}
           >
             <input
@@ -511,6 +514,7 @@ export function SubmissionForm({
             htmlFor="contact_email"
             help={submissionForm.fields.contact_email.help}
             required
+            alignControl
             error={fieldErrors.contact_email}
           >
             <input
