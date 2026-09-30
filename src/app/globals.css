@@ -1,0 +1,174 @@
+@import "tailwindcss";
+
+/*
+ * Privacy Week design tokens. A single light "kraft paper" theme, set
+ * explicitly on html/body so it looks the same regardless of the OS setting.
+ */
+@theme {
+  --color-surface: #f7eacb;
+  --color-surface-deep: #efe0ba;
+  --color-surface-deeper: #e8d5a6;
+  --color-surface-kraft: #d1c09f;
+  --color-surface-raised: #fffdf6;
+  --color-ink: #1b231d;
+  --color-muted: #5a6a5b;
+  --color-green: #2f6b3f;
+  --color-emerald: #008c4c;
+  --color-emerald-deep: #00703d;
+  --color-yellow: #ffd23f;
+  --color-yellow-strong: #ffc107;
+  --color-danger: #9b1c1c;
+
+  --font-display: var(--font-archivo), ui-sans-serif, system-ui, sans-serif;
+  --font-body: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-jetbrains), ui-monospace, SFMono-Regular, monospace;
+}
+
+@layer base {
+  html {
+    background-color: var(--color-surface);
+    color: var(--color-ink);
+    -webkit-text-size-adjust: 100%;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    font-family: var(--font-body);
+    font-synthesis-weight: none;
+    text-rendering: optimizeLegibility;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display);
+    font-weight: 800;
+    letter-spacing: -0.01em;
+    line-height: 1.02;
+  }
+
+  :focus-visible {
+    outline: 3px solid var(--color-emerald);
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+
+  ::selection {
+    background: var(--color-yellow);
+    color: var(--color-ink);
+  }
+}
+
+@layer components {
+  /* Tiny uppercase mono label. */
+  .u-mono {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    line-height: 1.2;
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+  }
+
+  /* Very subtle laid-paper lines. */
+  .paper {
+    background-color: var(--color-surface);
+    background-image: repeating-linear-gradient(
+      0deg,
+      rgba(27, 35, 29, 0.035) 0px,
+      rgba(27, 35, 29, 0.035) 1px,
+      transparent 1px,
+      transparent 5px
+    );
+  }
+
+  /* Halftone dots for darker kraft bands. */
+  .paper-dots {
+    background-color: var(--color-surface-deep);
+    background-image: radial-gradient(
+      rgba(27, 35, 29, 0.08) 1px,
+      transparent 1.4px
+    );
+    background-size: 8px 8px;
+  }
+
+  /* Cut-corner shapes. */
+  .cut-corner {
+    clip-path: polygon(
+      0 0,
+      calc(100% - 14px) 0,
+      100% 14px,
+      100% 100%,
+      14px 100%,
+      0 calc(100% - 14px)
+    );
+  }
+
+  .cut-corner-one {
+    clip-path: polygon(
+      0 0,
+      100% 0,
+      100% calc(100% - 14px),
+      calc(100% - 14px) 100%,
+      0 100%
+    );
+  }
+
+  .cut-corner-sm {
+    clip-path: polygon(
+      0 0,
+      100% 0,
+      100% calc(100% - 8px),
+      calc(100% - 8px) 100%,
+      0 100%
+    );
+  }
+
+  /* Ticket perforation: a column of punched holes on the right edge. */
+  .ticket-holes {
+    background-image: radial-gradient(
+      circle at center,
+      var(--color-surface) 3.4px,
+      transparent 3.6px
+    );
+    background-size: 100% 14px;
+    background-repeat: repeat-y;
+  }
+
+  /* Solid ink bar over text, the privacy twist. */
+  .redaction {
+    background-color: var(--color-ink);
+    color: transparent;
+    border-radius: 1px;
+    padding: 0 0.15em;
+    box-decoration-break: clone;
+    -webkit-box-decoration-break: clone;
+    user-select: none;
+  }
+
+  /* Barcode-like strip on tickets. */
+  .barcode {
+    background-image: repeating-linear-gradient(
+      90deg,
+      var(--color-ink) 0px,
+      var(--color-ink) 2px,
+      transparent 2px,
+      transparent 5px,
+      var(--color-ink) 5px,
+      var(--color-ink) 6px,
+      transparent 6px,
+      transparent 10px
+    );
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
