@@ -1,8 +1,9 @@
 import { notFound } from "next/navigation";
 
-import { ProjectCard } from "@/components/project-card";
+import { Badge } from "@/components/badge";
 import { Eyebrow } from "@/components/eyebrow";
-import { Section } from "@/components/section";
+import { ProjectCard } from "@/components/project-card";
+import { Section, SectionHeading } from "@/components/section";
 import { resultsPage } from "@/content/projects";
 import { listPublicSubmissions } from "@/lib/db/submissions";
 
@@ -18,23 +19,35 @@ export default async function ResultsPage() {
 
   return (
     <>
-      <Section tone="deep">
-        <div className="flex max-w-3xl flex-col gap-4">
-          <Eyebrow>{resultsPage.eyebrow}</Eyebrow>
-          <h1 className="text-4xl uppercase sm:text-5xl">{resultsPage.title}</h1>
-          <p className="text-base text-muted">{resultsPage.intro}</p>
+      <Section tone="dots" padding="sm">
+        <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
+          <div className="flex max-w-3xl flex-col gap-4">
+            <Eyebrow>{resultsPage.eyebrow}</Eyebrow>
+            <h1 className="u-display text-4xl sm:text-5xl lg:text-6xl">
+              {resultsPage.title}
+            </h1>
+            <p className="max-w-2xl text-base leading-relaxed text-muted sm:text-lg">
+              {resultsPage.intro}
+            </p>
+          </div>
+          <Badge tone="yellow">{resultsPage.prize}</Badge>
         </div>
       </Section>
       {winners.length === 0 ? (
         <Section>
-          <p className="max-w-2xl border border-ink/15 bg-surface-raised p-6 text-muted">
+          <p className="sticker mx-auto max-w-2xl p-8 text-center text-muted">
             {resultsPage.empty}
           </p>
         </Section>
       ) : (
         <>
-          <ResultsGroup title={resultsPage.cloak} projects={cloakWinners} />
-          <ResultsGroup title={resultsPage.zcash} projects={zcashWinners} tone="deep" />
+          <ResultsGroup number="01" title={resultsPage.cloak} projects={cloakWinners} />
+          <ResultsGroup
+            number="02"
+            title={resultsPage.zcash}
+            projects={zcashWinners}
+            tone="deep"
+          />
         </>
       )}
     </>
@@ -42,26 +55,23 @@ export default async function ResultsPage() {
 }
 
 function ResultsGroup({
+  number,
   title,
   projects,
   tone = "surface",
 }: {
+  number: string;
   title: string;
   projects: Awaited<ReturnType<typeof listPublicSubmissions>>;
   tone?: "surface" | "deep";
 }) {
   return (
     <Section tone={tone}>
-      <h2 className="mb-8 text-3xl uppercase">{title}</h2>
+      <SectionHeading number={number} eyebrow={resultsPage.eyebrow} title={title} />
       {projects.length > 0 ? (
-        <ul className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <ul className="grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
           {projects.map((project) => (
-            <li key={project.slug} className="relative">
-              <span className="absolute right-2 top-2 z-10 bg-yellow px-3 py-1 font-display text-xs font-extrabold uppercase">
-                {resultsPage.prize}
-              </span>
-              <ProjectCard project={project} />
-            </li>
+            <ProjectCard key={project.slug} project={project} prize={resultsPage.prize} />
           ))}
         </ul>
       ) : (

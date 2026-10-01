@@ -4,8 +4,8 @@ export interface TicketField {
 }
 
 /**
- * Raised paper ticket with a cut corner, a perforated right edge, mono field
- * labels and a barcode strip.
+ * Raised paper ticket: 2px ink rim, hard sticker shadow, a perforated stub on
+ * the right with a vertical barcode, mono field labels.
  */
 export function TicketCard({
   header,
@@ -28,23 +28,28 @@ export function TicketCard({
   return (
     <div
       className={[
-        "relative cut-corner-one",
-        isInk ? "bg-ink text-surface-raised" : "bg-surface-raised text-ink",
-        "shadow-[0_14px_30px_-18px_rgba(27,35,29,0.55)]",
+        "relative flex",
+        isInk ? "sticker-ink" : "sticker",
         rotate ? "rotate-[-1.5deg]" : "",
         className,
       ]
         .filter(Boolean)
         .join(" ")}
     >
-      <div
-        aria-hidden
-        className="ticket-holes absolute inset-y-3 right-2 w-3 opacity-80"
-      />
-      <div className="flex flex-col gap-4 p-5 pr-8 sm:p-6 sm:pr-10">
+      <div className="flex min-w-0 flex-1 flex-col gap-4 p-5 sm:p-6">
         {(header || serial) && (
-          <div className="flex items-baseline justify-between gap-4 border-b border-current/15 pb-3">
-            {header ? <span className="u-mono">{header}</span> : <span />}
+          <div
+            className={`flex items-baseline justify-between gap-4 border-b-2 pb-3 ${
+              isInk ? "border-surface-raised/20" : "border-ink/15"
+            }`}
+          >
+            {header ? (
+              <span className={`u-mono ${isInk ? "text-yellow" : "text-emerald-deep"}`}>
+                {header}
+              </span>
+            ) : (
+              <span />
+            )}
             {serial ? (
               <span className="u-mono whitespace-nowrap">{serial}</span>
             ) : null}
@@ -55,7 +60,9 @@ export function TicketCard({
           <dl className="flex flex-col gap-3">
             {fields.map((field) => (
               <div key={field.label} className="flex flex-col gap-1">
-                <dt className={`u-mono ${isInk ? "text-surface-raised/70" : "text-muted"}`}>
+                <dt
+                  className={`u-mono ${isInk ? "text-surface-raised/70" : "text-muted"}`}
+                >
                   {field.label}
                 </dt>
                 <dd className="font-display text-lg font-extrabold leading-tight">
@@ -67,11 +74,27 @@ export function TicketCard({
         )}
 
         {footer}
+      </div>
 
-        <div
-          aria-hidden
-          className={`barcode h-6 w-40 ${isInk ? "opacity-90" : "opacity-80"}`}
-        />
+      {/* The stub. */}
+      <div
+        aria-hidden
+        className={`relative flex w-10 shrink-0 flex-col items-center justify-between border-l-2 border-dashed py-4 sm:w-12 ${
+          isInk ? "border-surface-raised/30" : "border-ink/30"
+        }`}
+        style={
+          {
+            "--ticket-hole-fill": isInk
+              ? "var(--color-surface-deep)"
+              : "var(--color-surface)",
+          } as React.CSSProperties
+        }
+      >
+        <span className="ticket-holes absolute inset-y-3 left-[-7px] w-3" />
+        <span className="barcode-v h-24 w-4 opacity-80" />
+        <span className="u-mono whitespace-nowrap text-[9px] opacity-70 [writing-mode:vertical-rl]">
+          {serial ?? header ?? ""}
+        </span>
       </div>
     </div>
   );

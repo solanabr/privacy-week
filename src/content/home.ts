@@ -18,6 +18,19 @@ export const hero = {
   },
   countdownSuffix: "encerra em",
   countdownClosed: "Submissões encerradas",
+  countdownLoading: "Carregando a contagem regressiva",
+  countdownLabels: {
+    days: "dias",
+    hours: "horas",
+    minutes: "min",
+    seconds: "seg",
+  },
+  facts: [
+    { label: "Prêmios", value: "1000 USDC", detail: "10 prêmios de 100 USDC" },
+    { label: "Pools", value: "Cloak + Zcash", detail: "500 USDC para cada pool" },
+    { label: "Período", value: "30 set → 03 out", detail: "De quarta a sábado" },
+    { label: "Prazo", value: "03/10, 23:59", detail: "Horário de Brasília" },
+  ],
 } as const;
 
 export const whyPrivacy = {
@@ -120,6 +133,13 @@ export const challenge = {
       body: "Folha de pagamento, checkout, B2B, qualquer produto em que a privacidade importe, feito com Cloak ou com Zcash.",
     },
   ],
+  prizeLabel: "Prêmios",
+  prizeFigure: "1000 USDC",
+  prizeBreakdown: "10 prêmios de 100 USDC",
+  pools: [
+    { name: "Cloak", amount: "500 USDC", note: "5 prêmios" },
+    { name: "Zcash", amount: "500 USDC", note: "5 prêmios" },
+  ],
   coreMessage:
     "Não comecem um projeto novo. Coloquem privacidade no projeto que vocês já estão construindo. Os 100 USDC são o bônus; o prêmio de verdade é uma submissão mais forte no Hackathon.",
   coreMessageLabel: "O recado principal",
@@ -133,6 +153,7 @@ export const challenge = {
 export const howTo = {
   eyebrow: "COMO PARTICIPAR",
   title: "Três passos",
+  stepLabel: "Passo",
   steps: [
     {
       title: "Construa.",
@@ -175,6 +196,14 @@ export const requirements = {
 export const judging = {
   eyebrow: "JULGAMENTO",
   title: "Como a gente avalia",
+  intro:
+    "Quatro critérios, com pesos diferentes. O texto de privacidade e o produto funcionando valem mais da metade da nota.",
+  labels: {
+    criterion: "Critério",
+    weight: "Peso",
+    guidance: "O que a gente procura",
+    total: "Total",
+  },
   criteria: [
     {
       key: "privacy_impact",
@@ -208,30 +237,80 @@ export const judging = {
 export const payout = {
   eyebrow: "PAGAMENTO",
   title: "Como o prêmio é pago",
+  linkLabel: "Payment link da Cloak",
+  linkAmount: "100 USDC",
+  linkNote: "Uso único · enviado em privado",
   body: "Cada vencedor recebe um payment link da Cloak de 100 USDC, enviado em privado para o contato informado no formulário. É um link de uso único: quem tiver o link resgata o valor para a própria carteira, sem precisar informar o endereço antes. Trate o link como dinheiro vivo: não compartilhe e resgate assim que receber.",
 } as const;
+
+export interface CalendarRow {
+  /** Day number shown big on the track, e.g. "30". */
+  day: string;
+  /** Short month or label under the day, e.g. "set". */
+  month: string;
+  when: string;
+  what: string;
+  /** ISO start; drives the "happening now" state. */
+  at: string;
+  /** ISO end. Point events without one last the rest of their day. */
+  until?: string;
+}
 
 export const calendar = {
   eyebrow: "CALENDÁRIO",
   title: "Datas",
   note: "Todos os horários em BRT (horário de Brasília).",
+  now: "Acontecendo agora",
+  next: "Próximo",
+  done: "Concluído",
   rows: [
     {
+      day: "30",
+      month: "set",
       when: "Qua 30/09, 15h",
       what: "Workshop “Intro Zero Knowledge: Zcash + Cloak” no the/Garage (Solana House) e abertura do desafio",
+      at: "2026-09-30T15:00:00-03:00",
     },
-    { when: "Qua 30/09 a Sáb 03/10", what: "Build" },
     {
+      day: "30–03",
+      month: "set → out",
+      when: "Qua 30/09 a Sáb 03/10",
+      what: "Build",
+      at: "2026-09-30T15:00:00-03:00",
+      until: "2026-10-03T23:59:59-03:00",
+    },
+    {
+      day: "01–02",
+      month: "out",
       when: "Qui 01/10 e Sex 02/10",
       what: "Office hours, das 10h às 19h, na Solana House",
+      at: "2026-10-01T10:00:00-03:00",
+      until: "2026-10-02T19:00:00-03:00",
     },
-    { when: "Sáb 03/10, 23:59", what: "Encerramento das submissões" },
-    { when: "Sáb 10/10", what: "Resultado" },
     {
+      day: "03",
+      month: "out",
+      when: "Sáb 03/10, 23:59",
+      what: "Encerramento das submissões",
+      at: "2026-10-03T23:59:00-03:00",
+      until: "2026-10-04T00:00:00-03:00",
+    },
+    {
+      day: "10",
+      month: "out",
+      when: "Sáb 10/10",
+      what: "Resultado",
+      at: "2026-10-10T00:00:00-03:00",
+    },
+    {
+      day: "13",
+      month: "out",
       when: "Ter 13/10, 03:59",
       what: "Prazo do Hackathon da Colosseum (12/10, 23:59 PT)",
+      at: "2026-10-13T03:59:00-03:00",
+      until: "2026-10-13T04:00:00-03:00",
     },
-  ],
+  ] satisfies readonly CalendarRow[],
 } as const;
 
 export const devWithCloak = {
@@ -239,8 +318,11 @@ export const devWithCloak = {
   title: "Desenvolvendo com Cloak (mainnet)",
   intro:
     "O desenvolvimento com Cloak é feito na mainnet da Solana; não existe devnet nem sandbox.",
+  installLabel: "Instalação",
+  install: "npm install @cloak.dev/sdk @solana/kit",
+  copy: "Copiar",
+  copied: "Copiado!",
   facts: [
-    "Instalação: npm install @cloak.dev/sdk @solana/kit",
     "Depósito mínimo 0,01 SOL (ou 1 USDC / 1 USDT). Sair do pool custa 0,005 SOL + 0,3% (pool de SOL) ou 0,45 USDC/USDT + 0,3%. Depositar é grátis.",
     "Tenha pelo menos 0,07 SOL na carteira para o primeiro teste.",
     "Salve sempre o result.outputUtxos antes de considerar a operação concluída.",

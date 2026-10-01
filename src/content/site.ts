@@ -13,23 +13,28 @@ export const site = {
   description:
     "Um desafio de quarta a sábado para quem está construindo no Hackathon da Colosseum. 1000 USDC em 10 prêmios para projetos com Cloak e Zcash.",
   tagline: "Coloque privacidade no seu projeto.",
+  year: "2026",
 } as const;
 
 export const nav = [
   { href: "/#desafio", label: "Desafio" },
   { href: "/#como-participar", label: "Como participar" },
-  { href: "/projetos", label: "Projetos" },
+  { href: "/#calendario", label: "Datas" },
   { href: "/#recursos", label: "Recursos" },
   { href: "/#duvidas", label: "Dúvidas" },
+  { href: "/projetos", label: "Projetos" },
 ] as const;
 
 export const accessibility = {
   skipToContent: "Pular para o conteúdo",
   primaryNavigation: "Principal",
+  sectionNavigation: "Seções da página",
+  scrollProgress: "Progresso da leitura",
 } as const;
 
 export const headerLabels = {
   menu: "Menu",
+  close: "Fechar",
 } as const;
 
 export const sectionIds = {
@@ -51,9 +56,15 @@ export const cta = {
   submit: "Enviar projeto",
   viewProjects: "Ver projetos",
   rules: "Ver as regras",
+  gallery: "Galeria",
+  seeWinners: "Ver os vencedores",
+  backHome: "Voltar para o início",
 } as const;
 
 export const footer = {
+  tagline:
+    "Um desafio de privacidade da Superteam Brasil para quem está construindo no Hackathon da Colosseum, com Cloak e Zcash.",
+  sponsorsLabel: "Patrocinadores",
   sponsors: [
     {
       name: "Cloak",
@@ -77,9 +88,32 @@ export const footer = {
       height: 87,
     },
   ],
+  columns: [
+    {
+      title: "Privacy Week",
+      links: [
+        { href: "/#desafio", label: "O desafio" },
+        { href: "/#como-participar", label: "Como participar" },
+        { href: "/#julgamento", label: "Julgamento" },
+        { href: "/projetos", label: "Projetos enviados" },
+      ],
+    },
+    {
+      title: "Links",
+      links: [
+        { href: "https://docs.cloak.ag", label: "docs.cloak.ag" },
+        {
+          href: "https://hackathon.superteam.com.br",
+          label: "Hackathon Superteam Brasil",
+        },
+        { href: "https://colosseum.com/worldsfair", label: "Colosseum World's Fair" },
+      ],
+    },
+  ],
   links: [
     { href: "https://docs.cloak.ag", label: "docs.cloak.ag" },
     { href: "https://hackathon.superteam.com.br", label: "Hackathon Superteam Brasil" },
     { href: "https://colosseum.com/worldsfair", label: "Colosseum World's Fair" },
   ],
+  copyright: "© 2026 Superteam Brasil",
 } as const;

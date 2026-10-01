@@ -4,8 +4,8 @@ const L = whyPrivacy.diagram.labels;
 
 function Wallet({ label, detail }: { label: string; detail: string }) {
   return (
-    <div className="flex w-32 shrink-0 flex-col gap-1 border border-ink/20 bg-surface-raised p-3 text-center">
-      <span className="font-display text-sm font-extrabold uppercase">{label}</span>
+    <div className="sticker-sm flex w-full shrink-0 flex-col items-center gap-1 px-4 py-4 text-center sm:w-28">
+      <span className="font-display text-3xl font-black leading-none">{label}</span>
       <span className="u-mono text-muted">{detail}</span>
     </div>
   );
@@ -13,28 +13,41 @@ function Wallet({ label, detail }: { label: string; detail: string }) {
 
 function Chip({ children }: { children: React.ReactNode }) {
   return (
-    <span className="u-mono border border-ink/20 bg-surface px-2 py-1 text-ink">
+    <span className="u-mono border-2 border-ink/20 bg-surface-raised px-2 py-1 text-ink">
       {children}
     </span>
   );
 }
 
+function Arrow() {
+  return (
+    <div className="flex items-center justify-center text-ink" aria-hidden>
+      <svg viewBox="0 0 24 24" className="h-7 w-7 rotate-90 sm:rotate-0" fill="none">
+        <path
+          d="M3 12h16m0 0-6-6m6 6-6 6"
+          stroke="currentColor"
+          strokeWidth="2.5"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </svg>
+    </div>
+  );
+}
+
 export function ShieldedPoolDiagram() {
   return (
-    <figure className="flex min-w-0 flex-col gap-3">
+    <figure className="sticker flex min-w-0 flex-col gap-5 p-5 sm:p-6">
+      <p className="hat">{whyPrivacy.diagram.title}</p>
       <div
         role="img"
         aria-label={whyPrivacy.diagram.caption}
-        className="flex w-full min-w-0 items-stretch gap-3 overflow-x-auto pb-2 sm:gap-5"
+        className="flex min-w-0 flex-col items-stretch gap-3 sm:flex-row sm:items-center"
       >
         <Wallet label={L.walletA} detail={L.deposit} />
-
-        <div className="flex items-center text-2xl text-muted" aria-hidden>
-          →
-        </div>
-
-        <div className="relative flex min-w-56 flex-1 flex-col gap-3 border-2 border-dashed border-emerald/70 bg-surface-deep p-4">
-          <span className="u-mono text-emerald">{L.pool}</span>
+        <Arrow />
+        <div className="relative flex min-w-0 flex-1 flex-col gap-3 border-2 border-dashed border-emerald bg-surface-deep p-4">
+          <span className="u-mono text-emerald-deep">{L.pool}</span>
           <div className="flex flex-wrap gap-2">
             <Chip>{L.note}</Chip>
             <Chip>{L.commitment}</Chip>
@@ -42,20 +55,18 @@ export function ShieldedPoolDiagram() {
             <Chip>{L.proof}</Chip>
             <Chip>{L.viewingKey}</Chip>
           </div>
-          <p className="text-xs text-muted">{whyPrivacy.diagram.treeNote}</p>
+          <p className="text-xs leading-relaxed text-muted">
+            {whyPrivacy.diagram.treeNote}
+          </p>
         </div>
-
-        <div className="flex items-center text-2xl text-muted" aria-hidden>
-          →
-        </div>
-
+        <Arrow />
         <Wallet label={L.walletB} detail={L.withdraw} />
       </div>
 
-      <div className="flex items-center gap-3">
+      <div className="flex items-center gap-3 border-t-2 border-ink/10 pt-4">
         <svg
           viewBox="0 0 200 20"
-          className="h-5 w-40 text-ink"
+          className="h-5 w-32 shrink-0 text-ink"
           role="img"
           aria-label={L.crossed}
         >
@@ -71,10 +82,10 @@ export function ShieldedPoolDiagram() {
           <line x1="70" y1="2" x2="130" y2="18" stroke="currentColor" strokeWidth="3" />
           <line x1="130" y1="2" x2="70" y2="18" stroke="currentColor" strokeWidth="3" />
         </svg>
-        <span className="text-sm text-muted">{L.crossed}</span>
+        <span className="text-sm font-semibold">{L.crossed}</span>
       </div>
 
-      <figcaption className="max-w-2xl text-sm text-muted">
+      <figcaption className="text-sm leading-relaxed text-muted">
         {whyPrivacy.diagram.caption}
       </figcaption>
     </figure>

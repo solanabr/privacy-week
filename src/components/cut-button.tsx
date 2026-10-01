@@ -1,17 +1,32 @@
 import Link from "next/link";
 
-type Variant = "primary" | "secondary";
+type Variant =
+  | "primary"
+  | "secondary"
+  | "yellow"
+  | "ink"
+  | "outline"
+  | "outline-light";
 
-const BASE =
-  "cut-corner-sm inline-flex items-center justify-center gap-2 px-5 py-3 font-display text-sm font-extrabold uppercase tracking-[0.08em] transition-colors";
+type Size = "sm" | "md" | "lg";
 
 const VARIANTS: Record<Variant, string> = {
-  primary: "bg-emerald text-surface-raised hover:bg-emerald-deep",
-  secondary: "bg-surface-kraft text-ink hover:bg-surface-deeper",
+  primary: "btn-cut btn-cut-primary",
+  secondary: "btn-cut btn-cut-outline",
+  outline: "btn-cut btn-cut-outline",
+  "outline-light": "btn-cut btn-cut-outline btn-cut-outline-light",
+  yellow: "btn-cut btn-cut-yellow",
+  ink: "btn-cut btn-cut-ink",
 };
 
-function classes(variant: Variant, className: string): string {
-  return `${BASE} ${VARIANTS[variant]} ${className}`;
+const SIZES: Record<Size, string> = {
+  sm: "min-h-10 px-4 py-2 text-xs",
+  md: "",
+  lg: "min-h-13 px-7 py-4 text-base",
+};
+
+function classes(variant: Variant, size: Size, className: string): string {
+  return `${VARIANTS[variant]} ${SIZES[size]} ${className}`.trim();
 }
 
 function isExternal(href: string): boolean {
@@ -21,53 +36,61 @@ function isExternal(href: string): boolean {
 export function CutLink({
   href,
   variant = "primary",
+  size = "md",
   className = "",
   children,
 }: {
   href: string;
   variant?: Variant;
+  size?: Size;
   className?: string;
   children: React.ReactNode;
 }) {
+  const content = <span>{children}</span>;
   if (isExternal(href)) {
     return (
       <a
         href={href}
         rel="noopener noreferrer"
         target="_blank"
-        className={classes(variant, className)}
+        className={classes(variant, size, className)}
       >
-        {children}
+        {content}
       </a>
     );
   }
   return (
-    <Link href={href} className={classes(variant, className)}>
-      {children}
+    <Link href={href} className={classes(variant, size, className)}>
+      {content}
     </Link>
   );
 }
 
 export function CutButton({
   variant = "primary",
+  size = "md",
   className = "",
   type = "submit",
   disabled,
+  onClick,
   children,
 }: {
   variant?: Variant;
+  size?: Size;
   className?: string;
   type?: "submit" | "button";
   disabled?: boolean;
+  onClick?: () => void;
   children: React.ReactNode;
 }) {
   return (
     <button
       type={type}
       disabled={disabled}
-      className={`${classes(variant, className)} disabled:cursor-not-allowed disabled:opacity-60`}
+      onClick={onClick}
+      className={`${classes(variant, size, className)} disabled:cursor-not-allowed disabled:opacity-50`}
     >
-      {children}
+      <span>{children}</span>
     </button>
   );
 }

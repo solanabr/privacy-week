@@ -2,7 +2,6 @@
 
 import { useActionState, useState } from "react";
 import { useFormStatus } from "react-dom";
-import Link from "next/link";
 
 import { submissionForm } from "@/content/form";
 import {
@@ -23,7 +22,7 @@ import {
   type SubmissionFormValues,
 } from "@/lib/validation";
 
-import { CutButton } from "./cut-button";
+import { CutButton, CutLink } from "./cut-button";
 import { Field, inputClass, textareaClass } from "./field";
 
 interface SubmissionFormProps {
@@ -53,9 +52,30 @@ function SubmitButton({
 }) {
   const { pending } = useFormStatus();
   return (
-    <CutButton type="submit" disabled={pending || disabled}>
+    <CutButton type="submit" size="lg" disabled={pending || disabled}>
       {pending ? submissionForm.submitting : label}
     </CutButton>
+  );
+}
+
+/** A numbered section of the form, drawn as a sticker card. */
+function FormSection({
+  number,
+  title,
+  children,
+}: {
+  number: string;
+  title: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <fieldset className="sticker p-5 sm:p-7">
+      <legend className="float-left mb-6 flex w-full items-center gap-3 border-b-2 border-ink/10 pb-4">
+        <span className="numeral numeral-fill text-2xl text-emerald-deep">{number}</span>
+        <span className="u-display text-xl sm:text-2xl">{title}</span>
+      </legend>
+      <div className="clear-both flex flex-col gap-6">{children}</div>
+    </fieldset>
   );
 }
 
@@ -100,14 +120,12 @@ export function SubmissionForm({
   }
 
   return (
-    <form action={formAction} className="flex flex-col gap-10" noValidate={false}>
+    <form action={formAction} className="flex flex-col gap-8" noValidate={false}>
       {state.message ? (
         <p
           role="alert"
-          className={`cut-corner-sm border p-4 text-sm font-semibold ${
-            state.status === "saved"
-              ? "border-emerald/40 bg-surface-raised text-emerald-deep"
-              : "border-danger/40 bg-surface-raised text-danger"
+          className={`sticker-sm p-4 text-sm font-semibold ${
+            state.status === "saved" ? "text-emerald-deep" : "text-danger"
           }`}
         >
           {state.message}
@@ -127,40 +145,42 @@ export function SubmissionForm({
       </div>
 
       {requireXAccount ? (
-        <fieldset className="cut-corner-sm flex flex-col gap-3 border border-ink/15 bg-surface-raised p-4 sm:flex-row sm:items-center sm:justify-between">
-          <legend className="u-mono px-1 text-emerald">
-            {submissionForm.xConnection.title}
-          </legend>
-          <div className="flex min-w-0 flex-col gap-1">
-            <p className="font-semibold">
+        <fieldset
+          className={`${
+            connectedXUsername ? "sticker" : "sticker-yellow"
+          } flex flex-col gap-4 p-5 sm:flex-row sm:items-center sm:justify-between sm:p-6`}
+        >
+          <legend className="sr-only">{submissionForm.xConnection.title}</legend>
+          <div className="flex min-w-0 flex-col gap-2">
+            <p className="hat">{submissionForm.xConnection.title}</p>
+            <p className="font-display text-lg font-black leading-snug">
               {connectedXUsername
                 ? submissionForm.xConnection.connected(connectedXUsername)
                 : submissionForm.xConnection.disconnected}
             </p>
-            <p className="text-xs text-muted">{submissionForm.xConnection.privacy}</p>
+            <p className="text-xs leading-relaxed text-ink-soft">
+              {submissionForm.xConnection.privacy}
+            </p>
             {xConnectionError ? (
               <p role="alert" className="text-xs font-semibold text-danger">
                 {xConnectionError}
               </p>
             ) : null}
           </div>
-          <Link
+          <CutLink
             href="/auth/x/start"
-            className="cut-corner-sm inline-flex min-h-11 shrink-0 items-center justify-center bg-surface-kraft px-4 font-display text-sm font-extrabold uppercase"
+            variant={connectedXUsername ? "outline" : "ink"}
+            className="shrink-0"
           >
             {connectedXUsername
               ? submissionForm.xConnection.change
               : submissionForm.xConnection.connect}
-          </Link>
+          </CutLink>
         </fieldset>
       ) : null}
 
       {/* Project */}
-      <fieldset className="flex flex-col gap-6">
-        <legend className="u-mono text-emerald">
-          {submissionForm.sections.project}
-        </legend>
-
+      <FormSection number="01" title={submissionForm.sections.project}>
         <Field
           label={submissionForm.fields.project_name.label}
           htmlFor="project_name"
@@ -177,36 +197,40 @@ export function SubmissionForm({
           />
         </Field>
 
-        <Field
-          label={submissionForm.fields.team_name.label}
-          htmlFor="team_name"
-          help={submissionForm.fields.team_name.help}
-          error={fieldErrors.team_name}
-        >
-          <input
-            id="team_name"
-            name="team_name"
-            defaultValue={values.team_name}
-            maxLength={80}
-            className={inputClass}
-          />
-        </Field>
+        <div className="grid gap-6 sm:grid-cols-2">
+          <Field
+            label={submissionForm.fields.team_name.label}
+            htmlFor="team_name"
+            help={submissionForm.fields.team_name.help}
+            alignControl
+            error={fieldErrors.team_name}
+          >
+            <input
+              id="team_name"
+              name="team_name"
+              defaultValue={values.team_name}
+              maxLength={80}
+              className={inputClass}
+            />
+          </Field>
 
-        <Field
-          label={submissionForm.fields.tagline.label}
-          htmlFor="tagline"
-          required
-          error={fieldErrors.tagline}
-        >
-          <input
-            id="tagline"
-            name="tagline"
-            defaultValue={values.tagline}
-            maxLength={140}
+          <Field
+            label={submissionForm.fields.tagline.label}
+            htmlFor="tagline"
             required
-            className={inputClass}
-          />
-        </Field>
+            alignControl
+            error={fieldErrors.tagline}
+          >
+            <input
+              id="tagline"
+              name="tagline"
+              defaultValue={values.tagline}
+              maxLength={140}
+              required
+              className={inputClass}
+            />
+          </Field>
+        </div>
 
         <div className="grid gap-6 sm:grid-cols-2">
           <Field
@@ -295,54 +319,54 @@ export function SubmissionForm({
             className={`${inputClass} min-h-24`}
           />
         </Field>
-      </fieldset>
+      </FormSection>
 
       {/* Proof */}
-      <fieldset className="flex flex-col gap-6">
-        <legend className="u-mono text-emerald">
-          {submissionForm.sections.proof}
-        </legend>
-
-        <Field
-          label={submissionForm.fields.proof_type.label}
-          htmlFor="proof_type"
-          required
-          error={fieldErrors.proof_type}
-        >
-          <select
-            id="proof_type"
-            name="proof_type"
-            value={proofType}
-            onChange={(event) => setProofType(event.target.value)}
+      <FormSection number="02" title={submissionForm.sections.proof}>
+        <div className="grid gap-6 sm:grid-cols-2">
+          <Field
+            label={submissionForm.fields.proof_type.label}
+            htmlFor="proof_type"
             required
-            className={inputClass}
+            alignControl
+            error={fieldErrors.proof_type}
           >
-            {PROOF_TYPES.map((value) => (
-              <option key={value} value={value}>
-                {proofTypeLabels[value]}
-              </option>
-            ))}
-          </select>
-        </Field>
+            <select
+              id="proof_type"
+              name="proof_type"
+              value={proofType}
+              onChange={(event) => setProofType(event.target.value)}
+              required
+              className={inputClass}
+            >
+              {PROOF_TYPES.map((value) => (
+                <option key={value} value={value}>
+                  {proofTypeLabels[value]}
+                </option>
+              ))}
+            </select>
+          </Field>
 
-        <Field
-          label={submissionForm.fields.proof_value.label}
-          htmlFor="proof_value"
-          help={
-            proofTypeHelp[proofType as keyof typeof proofTypeHelp] ??
-            proofTypeHelp.solana_tx
-          }
-          required
-          error={fieldErrors.proof_value}
-        >
-          <input
-            id="proof_value"
-            name="proof_value"
-            defaultValue={values.proof_value}
+          <Field
+            label={submissionForm.fields.proof_value.label}
+            htmlFor="proof_value"
+            help={
+              proofTypeHelp[proofType as keyof typeof proofTypeHelp] ??
+              proofTypeHelp.solana_tx
+            }
             required
-            className={inputClass}
-          />
-        </Field>
+            alignControl
+            error={fieldErrors.proof_value}
+          >
+            <input
+              id="proof_value"
+              name="proof_value"
+              defaultValue={values.proof_value}
+              required
+              className={`${inputClass} font-mono text-sm`}
+            />
+          </Field>
+        </div>
 
         <Field
           label={submissionForm.fields.demo_video_url.label}
@@ -368,7 +392,7 @@ export function SubmissionForm({
           required
           error={fieldErrors.writeup}
         >
-          <p className="mb-2 text-xs text-muted">
+          <p className="sticker-kraft mb-3 p-4 text-sm leading-relaxed">
             {submissionForm.fields.writeup.prompt}
           </p>
           <textarea
@@ -380,7 +404,7 @@ export function SubmissionForm({
             className={textareaClass}
           />
           <p
-            className={`mt-1 text-xs ${
+            className={`mt-2 u-mono ${
               words > MAX_WRITEUP_WORDS ? "text-danger" : "text-muted"
             }`}
             aria-live="polite"
@@ -394,6 +418,7 @@ export function SubmissionForm({
             label={submissionForm.fields.colosseum_url.label}
             htmlFor="colosseum_url"
             help={submissionForm.fields.colosseum_url.help}
+            alignControl
             error={fieldErrors.colosseum_url}
           >
             <input
@@ -410,6 +435,7 @@ export function SubmissionForm({
             label={submissionForm.fields.website_url.label}
             htmlFor="website_url"
             help={submissionForm.fields.website_url.help}
+            alignControl
             error={fieldErrors.website_url}
           >
             <input
@@ -422,16 +448,11 @@ export function SubmissionForm({
             />
           </Field>
         </div>
-      </fieldset>
+      </FormSection>
 
       {/* Team */}
-      <fieldset className="flex flex-col gap-6">
-        <legend className="u-mono text-emerald">
-          {submissionForm.sections.team}
-        </legend>
-        <p className="text-xs text-muted">
-          {submissionForm.fields.members.help}
-        </p>
+      <FormSection number="03" title={submissionForm.sections.team}>
+        <p className="text-sm text-muted">{submissionForm.fields.members.help}</p>
 
         {fieldErrors.members ? (
           <p role="alert" className="text-xs font-semibold text-danger">
@@ -443,10 +464,12 @@ export function SubmissionForm({
           {members.map((member, index) => (
             <li
               key={member.id}
-              className="cut-corner-sm border border-ink/15 bg-surface-raised p-4"
+              className="border-2 border-ink/15 bg-surface p-4"
             >
               <div className="mb-3 flex items-center justify-between">
-                <span className="u-mono text-muted">{submissionForm.fields.memberRow} {index + 1}</span>
+                <span className="u-mono text-emerald-deep">
+                  {submissionForm.fields.memberRow} {index + 1}
+                </span>
                 {members.length > 1 ? (
                   <button
                     type="button"
@@ -508,33 +531,25 @@ export function SubmissionForm({
 
         {members.length < MAX_MEMBERS ? (
           <div>
-            <button
-              type="button"
-              onClick={addMember}
-              className="cut-corner-sm bg-surface-kraft px-4 py-2 font-display text-sm font-extrabold uppercase tracking-wide hover:bg-surface-deeper"
-            >
+            <CutButton type="button" variant="outline" size="sm" onClick={addMember}>
               {submissionForm.fields.add_member}
-            </button>
+            </CutButton>
           </div>
         ) : null}
 
-        <label className="flex items-center gap-3 text-sm">
+        <label className="flex items-center gap-3 text-sm font-semibold">
           <input
             type="checkbox"
             name="show_members"
             defaultChecked={values.show_members}
-            className="h-4 w-4 accent-emerald"
+            className="h-5 w-5 accent-emerald"
           />
           {submissionForm.fields.show_members}
         </label>
-      </fieldset>
+      </FormSection>
 
       {/* Contact */}
-      <fieldset className="flex flex-col gap-6">
-        <legend className="u-mono text-emerald">
-          {submissionForm.sections.contact}
-        </legend>
-
+      <FormSection number="04" title={submissionForm.sections.contact}>
         <div className="grid gap-6 sm:grid-cols-2">
           <Field
             label={submissionForm.fields.contact_name.label}
@@ -572,6 +587,7 @@ export function SubmissionForm({
             label={submissionForm.fields.contact_telegram.label}
             htmlFor="contact_telegram"
             help={submissionForm.fields.contact_telegram.help}
+            alignControl
             error={fieldErrors.contact_telegram}
           >
             <input
@@ -585,6 +601,7 @@ export function SubmissionForm({
             label={submissionForm.fields.contact_whatsapp.label}
             htmlFor="contact_whatsapp"
             help={submissionForm.fields.contact_whatsapp.help}
+            alignControl
             error={fieldErrors.contact_whatsapp}
           >
             <input
@@ -595,20 +612,17 @@ export function SubmissionForm({
             />
           </Field>
         </div>
-      </fieldset>
+      </FormSection>
 
       {/* Consent */}
-      <fieldset className="flex flex-col gap-4">
-        <legend className="u-mono text-emerald">
-          {submissionForm.sections.consent}
-        </legend>
-        <label className="flex items-start gap-3 text-sm">
+      <FormSection number="05" title={submissionForm.sections.consent}>
+        <label className="flex items-start gap-3 text-sm font-semibold leading-relaxed">
           <input
             type="checkbox"
             name="accepted_rules"
             defaultChecked={values.accepted_rules}
             required
-            className="mt-1 h-4 w-4 accent-emerald"
+            className="mt-0.5 h-5 w-5 shrink-0 accent-emerald"
           />
           <span>{submissionForm.fields.accepted_rules}</span>
         </label>
@@ -617,16 +631,14 @@ export function SubmissionForm({
             {fieldErrors.accepted_rules}
           </p>
         ) : null}
-      </fieldset>
+      </FormSection>
 
       <div className="flex flex-wrap items-center gap-4">
         <SubmitButton
           label={submitLabel}
           disabled={requireXAccount && !connectedXUsername}
         />
-        <span className="text-xs text-muted">
-          {submissionForm.requiredHint}
-        </span>
+        <span className="text-xs text-muted">{submissionForm.requiredHint}</span>
       </div>
     </form>
   );

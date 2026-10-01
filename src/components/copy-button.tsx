@@ -2,14 +2,20 @@
 
 import { useState } from "react";
 
+import { CutButton } from "./cut-button";
+
 export function CopyButton({
   value,
   label,
   copiedLabel,
+  variant = "primary",
+  size = "md",
 }: {
   value: string;
   label: string;
   copiedLabel: string;
+  variant?: "primary" | "outline" | "yellow" | "ink";
+  size?: "sm" | "md";
 }) {
   const [copied, setCopied] = useState(false);
 
@@ -24,12 +30,8 @@ export function CopyButton({
   }
 
   return (
-    <button
-      type="button"
-      onClick={copy}
-      className="cut-corner-sm inline-flex items-center bg-emerald px-5 py-3 font-display text-sm font-extrabold uppercase tracking-[0.08em] text-surface-raised hover:bg-emerald-deep"
-    >
+    <CutButton type="button" variant={variant} size={size} onClick={copy}>
       {copied ? copiedLabel : label}
-    </button>
+    </CutButton>
   );
 }

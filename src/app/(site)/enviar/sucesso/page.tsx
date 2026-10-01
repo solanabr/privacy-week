@@ -8,6 +8,7 @@ import { Eyebrow } from "@/components/eyebrow";
 import { Section } from "@/components/section";
 import { TicketCard } from "@/components/ticket";
 import { successPage } from "@/content/form";
+import { site } from "@/content/site";
 import { FLASH_COOKIE } from "@/lib/form-state";
 import { getSubmissionByEditTokenHash } from "@/lib/db/submissions";
 import { hashEditToken } from "@/lib/tokens";
@@ -25,32 +26,45 @@ export default async function SucessoPage() {
   if (!submission) redirect("/");
 
   const link = editUrl(token);
+  const serial = `Nº ${String(submission.number).padStart(4, "0")}`;
 
   return (
-    <Section>
+    <Section tone="deep" padding="lg">
       <ClearSuccessCookie />
-      <div className="flex max-w-2xl flex-col gap-4">
-        <Eyebrow>{successPage.title}</Eyebrow>
-        <h1 className="text-3xl uppercase sm:text-4xl">{successPage.title}</h1>
-        <p className="text-base text-muted">{successPage.subtitle}</p>
-      </div>
+      <div className="mx-auto flex max-w-2xl flex-col gap-8">
+        <div className="flex flex-col gap-4">
+          <Eyebrow>{site.challengeName}</Eyebrow>
+          <h1 className="u-display text-4xl sm:text-5xl">{successPage.title}</h1>
+          <p className="text-base leading-relaxed text-muted sm:text-lg">
+            {successPage.subtitle}
+          </p>
+        </div>
 
-      <div className="mt-8 max-w-2xl">
         <TicketCard
           header={successPage.ticketLabel}
-          serial={`Nº ${String(submission.number).padStart(4, "0")}`}
-          fields={[{ label: successPage.editLinkLabel, value: link }]}
+          serial={serial}
+          fields={[
+            { label: "Projeto", value: submission.project_name },
+            {
+              label: successPage.editLinkLabel,
+              value: (
+                <code className="block break-all border-2 border-ink/15 bg-surface px-3 py-2 font-mono text-sm font-medium leading-relaxed">
+                  {link}
+                </code>
+              ),
+            },
+          ]}
           footer={
             <div className="flex flex-col gap-4">
-              <p className="text-sm font-semibold text-danger">
+              <p className="border-l-4 border-danger pl-3 text-sm font-semibold text-danger">
                 {successPage.editLinkWarning}
               </p>
               <div className="flex flex-wrap gap-3">
                 <CopyButton value={link} label={successPage.copy} copiedLabel={successPage.copied} />
-                <CutLink href="/projetos" variant="secondary">
+                <CutLink href="/projetos" variant="outline">
                   {successPage.viewProjects}
                 </CutLink>
-                <CutLink href="/" variant="secondary">
+                <CutLink href="/" variant="outline">
                   {successPage.backHome}
                 </CutLink>
               </div>
