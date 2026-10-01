@@ -1,0 +1,67 @@
+export const projectsPage = {
+  eyebrow: "PRIVACY SPRINT · GALERIA",
+  title: "Projetos enviados",
+  intro:
+    "Conheça as equipes que adicionaram privacidade ao projeto que estão construindo para o Hackathon da Colosseum.",
+  filters: {
+    category: "Categoria",
+    tech: "Construído com",
+    all: "Todas as opções",
+    any: "Todos",
+    apply: "Aplicar filtros",
+    clear: "Limpar filtros",
+  },
+  count: (total: number) =>
+    total === 1 ? "1 projeto" : `${total} projetos`,
+  number: "Nº",
+  empty: "Ainda não há projetos públicos nesta seleção.",
+  emptyTitle: "Nada por aqui ainda",
+  unpublished: "Os resultados ainda não foram publicados.",
+  openProject: "Ver projeto",
+  project: "Projeto",
+  tagline: "Em uma frase",
+  repository: "Repositório",
+  team: "Time",
+  submitted: "Enviado em",
+  editWindow: "Submissões encerradas",
+} as const;
+
+export const projectDetail = {
+  eyebrow: "PROJETO PRIVACY SPRINT",
+  team: "Time",
+  category: "Categoria",
+  tech: "Construído com",
+  changes: "O que foi feito no sprint",
+  proof: "Prova de que funciona",
+  proofTypes: {
+    solana_tx: "Transação na Solana (mainnet)",
+    zcash_tx: "Transação Zcash",
+    app_url: "Aplicação publicada",
+  },
+  demo: "Vídeo de demo",
+  writeup: "Privacidade",
+  members: "Integrantes",
+  repository: "Repositório no GitHub",
+  projectPage: "Projeto no Colosseum",
+  website: "Site do projeto",
+  links: "Links",
+  number: "Nº",
+  x: "X",
+  github: "GitHub",
+  back: "Voltar aos projetos",
+  backArrow: "←",
+  notFoundTitle: "Projeto não encontrado",
+  notFoundBody: "Este projeto não está disponível na galeria pública.",
+} as const;
+
+export const resultsPage = {
+  eyebrow: "PRIVACY SPRINT · RESULTADOS",
+  title: "Projetos vencedores",
+  intro: "Os projetos selecionados pelos jurados em cada pool de prêmio.",
+  cloak: "Pool Cloak",
+  zcash: "Pool Zcash",
+  empty: "Os vencedores serão publicados aqui quando o resultado for divulgado.",
+  unpublished: "Os resultados ainda não foram publicados.",
+  prize: "100 USDC",
+  unavailableTitle: "Resultados em breve",
+} as const;
