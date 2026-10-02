@@ -87,6 +87,18 @@ export function formatShortBRT(date: Date): string {
   return dateFormatter.format(date);
 }
 
+const clockFormatter = new Intl.DateTimeFormat("pt-BR", {
+  timeZone: TIME_ZONE,
+  hour: "2-digit",
+  minute: "2-digit",
+  second: "2-digit",
+});
+
+/** e.g. "21:13:05" */
+export function formatClockBRT(date: Date): string {
+  return clockFormatter.format(date);
+}
+
 export function formatIsoBRT(date: Date): string {
   const parts = new Intl.DateTimeFormat("en-CA", {
     timeZone: TIME_ZONE,

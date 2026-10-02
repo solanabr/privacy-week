@@ -29,7 +29,7 @@ The application uses Next.js App Router, TypeScript, Tailwind CSS v4, and a loca
 
    Copy the local API URL and service-role key from `supabase status` into `.env.local`. The service-role key is server-only and must not be committed or prefixed with `NEXT_PUBLIC_`.
 
-3. Copy `.env.example` to `.env.local` if you have not already, then set the values for the local database, a private `ADMIN_USERS` password, and a long random `IP_HASH_SALT`. Set `SITE_URL=http://localhost:3000` for normal development. `ADMIN_USERS` accepts comma-separated `name:password` pairs; the name is recorded as the judge on scores. For manual X login, set `X_CLIENT_ID` and `X_CLIENT_SECRET` from a Web App OAuth 2.0 app and register `${SITE_URL}/auth/x/callback` as a callback URL. E2E tests use a local mock X provider and do not need real X credentials.
+3. Copy `.env.example` to `.env.local` if you have not already, then set the values for the local database, a private `ADMIN_USERS` password, and a long random `IP_HASH_SALT`. Set `SITE_URL=http://localhost:3000` for normal development. `ADMIN_USERS` accepts comma-separated `name:password` pairs; the name is recorded as the judge on scores. Set `JUDGES` to the subset of names that actually judge when organizers also need admin access; the dashboard at `/admin/dashboard` uses it for judging progress. For manual X login, set `X_CLIENT_ID` and `X_CLIENT_SECRET` from a Web App OAuth 2.0 app and register `${SITE_URL}/auth/x/callback` as a callback URL. E2E tests use a local mock X provider and do not need real X credentials.
 
 4. Apply the migration and local example data when starting with a fresh local database:
 

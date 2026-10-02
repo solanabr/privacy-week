@@ -28,6 +28,22 @@ export function parseAdminUsers(raw: string | undefined): AdminUser[] {
     .filter((user) => user.name.length > 0);
 }
 
+/**
+ * Names expected to score every submission. `JUDGES` (comma-separated) lets
+ * organizers log in to the admin area without counting as judges; when it is
+ * unset every admin user is a judge.
+ */
+export function getJudgeNames(): string[] {
+  const raw = process.env.JUDGES;
+  if (raw && raw.trim()) {
+    return raw
+      .split(",")
+      .map((name) => name.trim())
+      .filter(Boolean);
+  }
+  return getAdminUsers().map((user) => user.name);
+}
+
 export function getAdminUsers(): AdminUser[] {
   return parseAdminUsers(process.env.ADMIN_USERS);
 }
