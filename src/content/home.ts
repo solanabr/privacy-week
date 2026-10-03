@@ -2,7 +2,7 @@ export const hero = {
   eyebrow: "SUPERTEAM BRASIL · PRIVACY WEEK",
   headline: "COLOQUE PRIVACIDADE NO SEU PROJETO.",
   highlight: "PRIVACIDADE",
-  sub: "Um desafio de quarta a sábado para quem está construindo no Hackathon da Colosseum. 1000 USDC em 10 prêmios para projetos com Cloak e Zcash.",
+  sub: "Um desafio de quarta a domingo para quem está construindo no Hackathon da Colosseum. 1000 USDC em 10 prêmios para projetos com Cloak e Zcash.",
   ticket: {
     header: "PRIVACY SPRINT",
     serial: "Nº 0001",
@@ -12,7 +12,7 @@ export const hero = {
       distribution: "Distribuição",
       countdown: "Tempo restante",
     },
-    period: "PERÍODO: 30 SET → 03 OUT, 23:59 (BRT)",
+    period: "PERÍODO: 30 SET → 05 OUT, 04:00 (BRT)",
     prizes: "PRÊMIOS: 1000 USDC",
     prizesDetail: "10 × 100 USDC · 500 Cloak · 500 Zcash",
   },
@@ -28,8 +28,8 @@ export const hero = {
   facts: [
     { label: "Prêmios", value: "1000 USDC", detail: "10 prêmios de 100 USDC" },
     { label: "Pools", value: "Cloak + Zcash", detail: "500 USDC para cada pool" },
-    { label: "Período", value: "30 set → 03 out", detail: "De quarta a sábado" },
-    { label: "Prazo", value: "03/10, 23:59", detail: "Horário de Brasília" },
+    { label: "Período", value: "30 set → 05 out", detail: "De quarta a domingo" },
+    { label: "Prazo", value: "05/10, 04:00", detail: "Segunda, horário de Brasília" },
   ],
 } as const;
 
@@ -165,7 +165,7 @@ export const howTo = {
     },
     {
       title: "Envie.",
-      body: "Preencha o formulário até sábado, 03/10, às 23:59 (horário de Brasília). Dá para editar até o prazo.",
+      body: "Preencha o formulário até segunda, 05/10, às 4h (horário de Brasília). Dá para editar até o prazo.",
     },
   ],
 } as const;
@@ -272,12 +272,12 @@ export const calendar = {
       at: "2026-09-30T15:00:00-03:00",
     },
     {
-      day: "30–03",
+      day: "30–05",
       month: "set → out",
-      when: "Qua 30/09 a Sáb 03/10",
+      when: "Qua 30/09 a Seg 05/10, 4h",
       what: "Build",
       at: "2026-09-30T15:00:00-03:00",
-      until: "2026-10-03T23:59:59-03:00",
+      until: "2026-10-05T04:00:00-03:00",
     },
     {
       day: "01–02",
@@ -288,12 +288,12 @@ export const calendar = {
       until: "2026-10-02T19:00:00-03:00",
     },
     {
-      day: "03",
+      day: "05",
       month: "out",
-      when: "Sáb 03/10, 23:59",
+      when: "Seg 05/10, 04:00",
       what: "Encerramento das submissões",
-      at: "2026-10-03T23:59:00-03:00",
-      until: "2026-10-04T00:00:00-03:00",
+      at: "2026-10-05T04:00:00-03:00",
+      until: "2026-10-05T04:01:00-03:00",
     },
     {
       day: "10",
@@ -486,7 +486,7 @@ export const faq: FaqItem[] = [
   {
     question: "Posso editar depois de enviar?",
     answer:
-      "Sim, pelo link de edição que aparece depois do envio, até sábado 23:59.",
+      "Sim, pelo link de edição que aparece depois do envio, até segunda, 05/10, às 4h.",
   },
   {
     question: "Como recebo o prêmio?",
@@ -509,7 +509,7 @@ export const faqSection = {
 } as const;
 
 export const closing = {
-  open: "Envie o seu projeto até sábado.",
+  open: "Envie o seu projeto até segunda, 4h.",
   closed: "Veja os projetos enviados.",
 } as const;
 

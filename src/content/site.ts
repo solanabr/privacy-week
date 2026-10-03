@@ -11,7 +11,7 @@ export const site = {
   domain: "privacy.superteam.com.br",
   title: "Privacy Week · Superteam Brasil",
   description:
-    "Um desafio de quarta a sábado para quem está construindo no Hackathon da Colosseum. 1000 USDC em 10 prêmios para projetos com Cloak e Zcash.",
+    "Um desafio de quarta a domingo para quem está construindo no Hackathon da Colosseum. 1000 USDC em 10 prêmios para projetos com Cloak e Zcash.",
   tagline: "Coloque privacidade no seu projeto.",
   year: "2026",
 } as const;

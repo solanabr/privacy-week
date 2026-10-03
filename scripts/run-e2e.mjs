@@ -2,7 +2,7 @@ import { spawnSync } from "node:child_process";
 
 const runs = [
   { tag: "@open", now: "2026-10-01T12:00:00-03:00" },
-  { tag: "@closed", now: "2026-10-04T00:00:01-03:00" },
+  { tag: "@closed", now: "2026-10-05T04:00:01-03:00" },
 ];
 
 for (const run of runs) {

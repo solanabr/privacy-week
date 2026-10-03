@@ -15,7 +15,7 @@ afterEach(() => {
 describe("submission actions enforce the server deadline", () => {
   it("rejects create and edit after the close time", async () => {
     vi.stubEnv("NODE_ENV", "development");
-    vi.stubEnv("DEV_NOW", "2026-10-04T00:00:00-03:00");
+    vi.stubEnv("DEV_NOW", "2026-10-05T04:00:01-03:00");
 
     const createResult = await createSubmissionAction(initialFormState, new FormData());
     const editResult = await updateSubmissionAction("token", initialFormState, new FormData());

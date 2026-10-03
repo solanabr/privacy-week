@@ -19,7 +19,7 @@ export const submissionForm = {
       "Não foi possível confirmar sua conta do X. Tente conectar novamente.",
   },
   intro:
-    "Preencha os dados do seu projeto. Você pode editar tudo pelo link que aparece depois do envio, até sábado, 03/10, às 23:59.",
+    "Preencha os dados do seu projeto. Você pode editar tudo pelo link que aparece depois do envio, até segunda, 05/10, às 4h.",
   sections: {
     project: "Sobre o projeto",
     proof: "Prova de que funciona",
@@ -46,7 +46,7 @@ export const submissionForm = {
     },
     sprint_changes: {
       label: "O que foi feito no sprint",
-      help: "Branch, PR ou intervalo de commits feitos entre quarta e sábado.",
+      help: "Branch, PR ou intervalo de commits feitos entre quarta e segunda.",
     },
     proof_type: { label: "Tipo de prova", help: "" },
     proof_value: { label: "Prova de que funciona", help: "" },
@@ -111,7 +111,7 @@ export const successPage = {
 export const editPage = {
   title: "Editar projeto",
   subtitle:
-    "Você pode editar o projeto até sábado, 03/10, às 23:59 (horário de Brasília).",
+    "Você pode editar o projeto até segunda, 05/10, às 4h (horário de Brasília).",
   submit: "Salvar alterações",
   closedMessage: "As submissões estão encerradas. O formulário abaixo está desativado.",
   saved: "Alterações salvas.",
@@ -125,5 +125,5 @@ export const closedPage = {
   beforeBody:
     "O Privacy Sprint abre quarta, 30/09, às 15h. Volte aqui depois do workshop.",
   closedBody:
-    "O prazo terminou em sábado, 03/10, às 23:59. Veja os projetos enviados na galeria.",
+    "O prazo terminou em segunda, 05/10, às 4h. Veja os projetos enviados na galeria.",
 } as const;

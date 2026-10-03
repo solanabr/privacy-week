@@ -13,7 +13,7 @@ export interface SubmissionWindow {
 }
 
 const DEFAULT_OPEN_AT = "2026-09-30T15:00:00-03:00";
-const DEFAULT_CLOSE_AT = "2026-10-03T23:59:59-03:00";
+const DEFAULT_CLOSE_AT = "2026-10-05T04:00:00-03:00";
 
 function parseEnvDate(name: string, fallback: string): Date {
   const raw = process.env[name] ?? fallback;
